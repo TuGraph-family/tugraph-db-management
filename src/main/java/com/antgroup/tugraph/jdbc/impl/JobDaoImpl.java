@@ -36,7 +36,7 @@ public class JobDaoImpl implements JobDao {
             +")");
 
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_result("
-            + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "`jobId` INTEGER PRIMARY KEY,"
             + "`result` TEXT"
             +")");
 	}
@@ -90,8 +90,14 @@ public class JobDaoImpl implements JobDao {
     }
 
     @Override
-    public int update(JobStatus jobStatus, JobResult jobResult) {
-        return 0;
+    public void update(JobStatus jobStatus, JobResult jobResult) {
+        jdbcTemplate.update("UPDATE job_status SET status = ? , runtime = ? WHERE jobId=?",
+                jobStatus.getStatus(), jobStatus.getRuntime(), jobStatus.getJobId());
+
+        if(jobStatus.getStatus().equals("SUCCESS")) {
+            jdbcTemplate.update("insert into job_result(jobId, result) values(?,?)",
+                jobResult.getJobId(), jobResult.getResult());
+        }
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface JobDao {
 
     int create(JobStatus jobStatus);
 
-    int update(JobStatus jobStatus, JobResult jobResult);
+    void update(JobStatus jobStatus, JobResult jobResult);
 
     int delete(Integer id);
 }

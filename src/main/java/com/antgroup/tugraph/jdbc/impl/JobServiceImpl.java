@@ -35,8 +35,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public int update(JobStatus jobStatus, JobResult jobResult) {
-        return this.jobDao.update(jobStatus, jobResult);
+    public void update(JobStatus jobStatus, JobResult jobResult) {
+        this.jobDao.update(jobStatus, jobResult);
     }
 
     @Override
