@@ -16,28 +16,60 @@
 // under the License.
 
 syntax="proto2";
-package com.example.demo;
+package com.antgroup.tugraph;
 
 option cc_generic_services = true;
 
-message EchoRequest {
-      required string name = 1;
+message CreatJobRequest {
 
+}
+
+message CreatJobResponse {
+
+}
+
+message ReadJobRequest {
+
+}
+
+message ReadJobResponse {
+
+}
+
+message UpdateJobRequest {
+
+}
+
+message UpdateJobResponse {
+
+}
+
+message DeleteJobRequest {
+
+}
+
+message DeleteJobResponse {
+
+}
+
+message JobManagementRequest {
       oneof Req {
-            string req1 = 2;
-            string req2 = 3;
+            CreatJobRequest creat_job_request = 1;
+            ReadJobRequest read_job_request = 2;
+            UpdateJobRequest update_job_request = 3;
+            DeleteJobRequest delete_job_request = 4;
       };
 };
 
-message EchoResponse {
-      required string message = 1;
-
+message JobManagementResponse {
       oneof Resp {
-            string resp1 = 2;
-            string resp2 = 3;
+            CreatJobResponse creat_job_response = 1;
+            ReadJobResponse read_job_response = 2;
+            UpdateJobResponse update_job_response = 3;
+            DeleteJobResponse delete_job_response = 4;
       };
 };
 
-service EchoService {
-      rpc echo(EchoRequest) returns (EchoResponse);
+service JobManagementService {
+      rpc handleRequest(JobManagementRequest) returns (JobManagementResponse);
 };

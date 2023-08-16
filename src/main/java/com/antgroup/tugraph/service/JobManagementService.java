@@ -1,5 +1,5 @@
 package com.antgroup.tugraph;
 
 public interface JobManagementService {
-    JobManagementResponse echo(JobManagementRequest request);
+    JobManagementResponse handleRequest(JobManagementRequest request);
 }
