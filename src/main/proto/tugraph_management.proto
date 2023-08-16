@@ -36,7 +36,7 @@ message JobResult {
       required string result = 1;
 }
 
-message CreatJobRequest {
+message CreateJobRequest {
       required string start_time = 3;
       required string period = 4;
       required string procedure_name = 5;
@@ -45,7 +45,7 @@ message CreatJobRequest {
       required string create_time = 8;
 }
 
-message CreatJobResponse {
+message CreateJobResponse {
       optional int64 job_id = 2;
 }
 
@@ -80,7 +80,7 @@ message JobManagementRequest {
       required string db_host = 5;
       required string db_port = 6;
       oneof Req {
-            CreatJobRequest creat_job_request = 1;
+            CreateJobRequest create_job_request = 1;
             ReadJobRequest read_job_request = 2;
             UpdateJobRequest update_job_request = 3;
             DeleteJobRequest delete_job_request = 4;
@@ -95,7 +95,7 @@ message JobManagementResponse {
 
       required ErrorCode error_code = 5;
       oneof Resp {
-            CreatJobResponse creat_job_response = 1;
+            CreateJobResponse create_job_response = 1;
             ReadJobResponse read_job_response = 2;
             UpdateJobResponse update_job_response = 3;
             DeleteJobResponse delete_job_response = 4;

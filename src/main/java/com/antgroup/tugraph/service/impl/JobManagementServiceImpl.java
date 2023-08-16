@@ -13,8 +13,8 @@ public class JobManagementServiceImpl implements JobManagementService {
         TugraphManagement.JobManagementResponse resp;
 
         switch(request.getReqCase()){
-            case CREAT_JOB_REQUEST:
-                resp = handleCreatJobRequest(request);
+            case CREATE_JOB_REQUEST:
+                resp = handleCreateJobRequest(request);
             break;
             case READ_JOB_REQUEST:
                 resp = handleReadJobRequest(request);
@@ -32,17 +32,17 @@ public class JobManagementServiceImpl implements JobManagementService {
         return resp;
     }
 
-    public TugraphManagement.JobManagementResponse handleCreatJobRequest(TugraphManagement.JobManagementRequest request) {
+    public TugraphManagement.JobManagementResponse handleCreateJobRequest(TugraphManagement.JobManagementRequest request) {
         String dbId = request.getDbHost() + ":" + request.getDbPort();
-        log.info("creat request db_id = " + dbId);
+        log.info("create request db_id = " + dbId);
         JobStatus jobStatus = new JobStatus();
         jobStatus.setDbId(dbId);
-        jobStatus.setStartTime(request.getCreatJobRequest().getStartTime());
-        jobStatus.setPeriod(request.getCreatJobRequest().getPeriod());
-        jobStatus.setProcedureName(request.getCreatJobRequest().getProcedureName());
-        jobStatus.setProcedureType(request.getCreatJobRequest().getProcedureType());
-        jobStatus.setCreator(request.getCreatJobRequest().getCreator());
-        jobStatus.setCreateTime(request.getCreatJobRequest().getCreateTime());
+        jobStatus.setStartTime(request.getCreateJobRequest().getStartTime());
+        jobStatus.setPeriod(request.getCreateJobRequest().getPeriod());
+        jobStatus.setProcedureName(request.getCreateJobRequest().getProcedureName());
+        jobStatus.setProcedureType(request.getCreateJobRequest().getProcedureType());
+        jobStatus.setCreator(request.getCreateJobRequest().getCreator());
+        jobStatus.setCreateTime(request.getCreateJobRequest().getCreateTime());
         return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED).build();
     }
 
