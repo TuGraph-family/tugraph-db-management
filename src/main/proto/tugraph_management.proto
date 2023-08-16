@@ -44,9 +44,10 @@ message ReadJobResponse {
 }
 
 message UpdateJobRequest {
-      required string status = 1;
-      optional string runtime = 2;
-      optional string result = 3;
+      required int64 job_id = 1;
+      required string status = 2;
+      optional string runtime = 3;
+      optional string result = 4;
 }
 
 message UpdateJobResponse {
