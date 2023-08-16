@@ -20,6 +20,24 @@ package com.antgroup.tugraph;
 
 option cc_generic_services = true;
 
+message JobStatus {
+      required string db_id = 1;
+      required int_64 job_id = 2;
+      required string job_type = 3;
+      required string start_time = 4;
+      required string period = 5;
+      required string procedure_name = 6;
+      required string procedure_type = 7;
+      required string status = 8;
+      required string creator = 9;
+      required string create_time = 10;
+}
+
+message JobResult {
+      required int_64 job_id = 1;
+      required string result = 2;
+}
+
 message CreatJobRequest {
       required int64 job_id = 1;
       required string job_type = 2;

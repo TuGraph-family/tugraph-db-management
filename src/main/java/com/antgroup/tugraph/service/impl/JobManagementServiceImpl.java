@@ -33,18 +33,26 @@ public class JobManagementServiceImpl implements JobManagementService {
     }
 
     public TugraphManagement.JobManagementResponse handleCreatJobRequest(TugraphManagement.JobManagementRequest request) {
+        String db_id = request.getDbHost() + ":" + request.getDbPort();
+        log.info("creat request db_id = " + db_id);
         return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED).build();
     }
 
     public TugraphManagement.JobManagementResponse handleReadJobRequest(TugraphManagement.JobManagementRequest request) {
+        String db_id = request.getDbHost() + ":" + request.getDbPort();
+        log.info("read request db_id = " + db_id);
         return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED).build();
     }
 
     public TugraphManagement.JobManagementResponse handleUpdateJobRequest(TugraphManagement.JobManagementRequest request) {
+        String db_id = request.getDbHost() + ":" + request.getDbPort();
+        log.info("update request db_id = " + db_id);
         return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED).build();
     }
 
     public TugraphManagement.JobManagementResponse handleDeleteJobRequest(TugraphManagement.JobManagementRequest request) {
+        String db_id = request.getDbHost() + ":" + request.getDbPort();
+        log.info("delete request db_id = " + db_id);
         return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED).build();
     }
 }
