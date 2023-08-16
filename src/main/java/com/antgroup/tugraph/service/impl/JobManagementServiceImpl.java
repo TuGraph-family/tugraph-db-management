@@ -1,24 +1,28 @@
 package com.antgroup.tugraph;
 
 import com.baidu.cloud.starlight.springcloud.server.annotation.RpcService;
+import lombok.extern.slf4j.Slf4j;
 
 @RpcService
+@Slf4j
 public class JobManagementServiceImpl implements JobManagementService {
+    private final JobService jobService = new JobServiceImpl(new JobDaoImpl());
+
     @Override
     public TugraphManagement.JobManagementResponse handleRequest(TugraphManagement.JobManagementRequest request) {
         TugraphManagement.JobManagementResponse resp;
 
         switch(request.getReqCase()){
-            case CREAT_JOB_REQUEST :
+            case CREAT_JOB_REQUEST:
                 resp = handleCreatJobRequest(request);
             break;
-            case READ_JOB_REQUEST :
+            case READ_JOB_REQUEST:
                 resp = handleReadJobRequest(request);
             break;
-            case UPDATE_JOB_REQUEST :
+            case UPDATE_JOB_REQUEST:
                 resp = handleUpdateJobRequest(request);
             break;
-            case DELETE_JOB_REQUEST :
+            case DELETE_JOB_REQUEST:
                 resp = handleDeleteJobRequest(request);
             break;
             default:
