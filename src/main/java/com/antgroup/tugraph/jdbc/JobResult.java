@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobStatus{
-    private Integer transactionId;
+    private Integer jobId;
 
     private String result;
 }

@@ -21,7 +21,14 @@ package com.antgroup.tugraph;
 option cc_generic_services = true;
 
 message CreatJobRequest {
-
+      required int64 job_id = 1;
+      required string job_type = 2;
+      required string start_time = 3;
+      required string period = 4;
+      required string procedure_name = 5;
+      required string procedure_type = 6;
+      required string creator = 7;
+      required string create_time = 8;
 }
 
 message CreatJobResponse {
@@ -33,11 +40,13 @@ message ReadJobRequest {
 }
 
 message ReadJobResponse {
-
+      required string result = 1;
 }
 
 message UpdateJobRequest {
-
+      required string status = 1;
+      optional string runtime = 2;
+      optional string result = 3;
 }
 
 message UpdateJobResponse {
@@ -45,7 +54,7 @@ message UpdateJobResponse {
 }
 
 message DeleteJobRequest {
-
+      required int64 job_id = 1;
 }
 
 message DeleteJobResponse {
@@ -53,6 +62,8 @@ message DeleteJobResponse {
 }
 
 message JobManagementRequest {
+      required string db_host = 5;
+      required string db_port = 6;
       oneof Req {
             CreatJobRequest creat_job_request = 1;
             ReadJobRequest read_job_request = 2;
@@ -62,6 +73,12 @@ message JobManagementRequest {
 };
 
 message JobManagementResponse {
+      enum ErrorCode {
+            SUCCESS = 1;
+            FAILED = 2;
+      };
+
+      required ErrorCode error_code = 5;
       oneof Resp {
             CreatJobResponse creat_job_response = 1;
             ReadJobResponse read_job_response = 2;

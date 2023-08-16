@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobStatus{
+    private String dbId;
+
     private Integer jobId;
 
     private String jobType;
