@@ -3,6 +3,7 @@ package com.antgroup.tugraph;
 import java.util.List;
 
 public interface JobService {
+
     JobStatus getStatusById(Integer id);
 
     JobResult getResultById(Integer id);
@@ -14,4 +15,5 @@ public interface JobService {
     int update(JobStatus jobStatus, JobResult jobResult);
 
     int delete(Integer id);
+
 }

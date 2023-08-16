@@ -13,22 +13,6 @@ public class JobDaoImpl implements JobDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void initTable() {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_status("
-            + "jobId INT PRIMARY KEY,"
-            + "jobType VARCHAR(255),"
-            + "startTime VARCHAR(255),"
-            + "period VARCHAR(255),"
-            + "procedureName VARCHAR(255),"
-            + "procedureType VARCHAR(255),"
-            + "status VARCHAR(255),"
-            + "runtime VARCHAR(255),"
-            + "creator VARCHAR(255),"
-            + "createTime VARCHAR(255)"
-            +")");
-    }
-
-    @Override
     public JobStatus getStatusById(Integer id) {
         JobStatus jobStatus  = jdbcTemplate.queryForObject("select * from job_status where jobId = ?", new BeanPropertyRowMapper<JobStatus>(JobStatus.class), id);
         return jobStatus;
