@@ -12,8 +12,6 @@ public class JobStatus{
 
     private Integer jobId;
 
-    private String jobType;
-
     private String startTime;
 
     private String period;

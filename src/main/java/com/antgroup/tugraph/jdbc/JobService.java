@@ -3,6 +3,7 @@ package com.antgroup.tugraph;
 import java.util.List;
 
 public interface JobService {
+    void initDB();
 
     JobStatus getStatusById(Integer id);
 

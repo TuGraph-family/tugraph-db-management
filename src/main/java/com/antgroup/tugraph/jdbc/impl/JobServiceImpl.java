@@ -1,12 +1,17 @@
 package com.antgroup.tugraph;
 
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
+@Service
 public class JobServiceImpl implements JobService {
-    private final JobDao jobDao;
+    @Autowired
+    private JobDao jobDao;
 
-    public JobServiceImpl(JobDao jobDao) {
-        this.jobDao =  jobDao;
+    @Override
+    public void initDB() {
+        this.jobDao.initDB();
     }
 
     @Override

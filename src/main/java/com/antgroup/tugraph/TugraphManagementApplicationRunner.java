@@ -9,30 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class TugraphManagementApplicationRunner implements ApplicationRunner {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    private void initDB() {
-		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_status("
-            + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "`jobType` VARCHAR(255),"
-            + "`startTime` VARCHAR(255),"
-            + "`period` VARCHAR(255),"
-            + "`procedureName` VARCHAR(255),"
-            + "`procedureType` VARCHAR(255),"
-            + "`status` VARCHAR(255),"
-            + "`runtime` VARCHAR(255),"
-            + "`creator` VARCHAR(255),"
-            + "`createTime` VARCHAR(255)"
-            +")");
-
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_result("
-            + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "`result` TEXT"
-            +")");
-	}
+    private JobService jobService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        initDB();
+        jobService.initDB();
     }
 }

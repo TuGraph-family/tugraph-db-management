@@ -1,12 +1,14 @@
 package com.antgroup.tugraph;
 
 import com.baidu.cloud.starlight.springcloud.server.annotation.RpcService;
+import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 
 @RpcService
 @Slf4j
 public class JobManagementServiceImpl implements JobManagementService {
-    private final JobService jobService = new JobServiceImpl(new JobDaoImpl());
+    @Autowired
+    private JobService jobService;
 
     @Override
     public TugraphManagement.JobManagementResponse handleRequest(TugraphManagement.JobManagementRequest request) {
@@ -43,6 +45,9 @@ public class JobManagementServiceImpl implements JobManagementService {
         jobStatus.setProcedureType(request.getCreateJobRequest().getProcedureType());
         jobStatus.setCreator(request.getCreateJobRequest().getCreator());
         jobStatus.setCreateTime(request.getCreateJobRequest().getCreateTime());
+        log.info("start to create.");
+        int returnVal = jobService.create(jobStatus);
+        log.info("return value = " + returnVal);
         return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED).build();
     }
 
