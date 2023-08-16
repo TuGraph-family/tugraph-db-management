@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobResult{
-    private Integer jobId;
+    private Integer JobId;
 
     private String result;
 }

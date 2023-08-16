@@ -22,8 +22,7 @@ option cc_generic_services = true;
 
 message JobStatus {
       required string db_id = 1;
-      required int_64 job_id = 2;
-      required string job_type = 3;
+      required int64 job_id = 2;
       required string start_time = 4;
       required string period = 5;
       required string procedure_name = 6;
@@ -34,13 +33,10 @@ message JobStatus {
 }
 
 message JobResult {
-      required int_64 job_id = 1;
-      required string result = 2;
+      required string result = 1;
 }
 
 message CreatJobRequest {
-      required int64 job_id = 1;
-      required string job_type = 2;
       required string start_time = 3;
       required string period = 4;
       required string procedure_name = 5;
@@ -50,11 +46,11 @@ message CreatJobRequest {
 }
 
 message CreatJobResponse {
-
+      optional int64 job_id = 2;
 }
 
 message ReadJobRequest {
-
+      required int64 job_id = 1;
 }
 
 message ReadJobResponse {
@@ -62,7 +58,7 @@ message ReadJobResponse {
 }
 
 message UpdateJobRequest {
-      required int64 job_id = 1;
+      required string procedure_name = 1;
       required string status = 2;
       optional string runtime = 3;
       optional string result = 4;
@@ -73,7 +69,7 @@ message UpdateJobResponse {
 }
 
 message DeleteJobRequest {
-      required int64 job_id = 1;
+      required string procedure_name = 1;
 }
 
 message DeleteJobResponse {
