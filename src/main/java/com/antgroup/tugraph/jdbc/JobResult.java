@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobStatus{
+public class JobResult{
     private Integer jobId;
 
     private String result;
