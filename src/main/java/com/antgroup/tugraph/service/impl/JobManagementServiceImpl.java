@@ -36,7 +36,7 @@ public class JobManagementServiceImpl implements JobManagementService {
 
     public TugraphManagement.JobManagementResponse handleCreateJobRequest(TugraphManagement.JobManagementRequest request) {
         String dbId = request.getDbHost() + ":" + request.getDbPort();
-        log.info("create request db_id = " + dbId);
+''        log.info("create request db_id = " + dbId);
 
         JobStatus jobStatus = new JobStatus();
         jobStatus.setDbId(dbId);
