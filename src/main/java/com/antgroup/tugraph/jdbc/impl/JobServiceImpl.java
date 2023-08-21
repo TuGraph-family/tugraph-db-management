@@ -41,6 +41,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public int delete(Integer id) {
-        return this.delete(id);
+        return this.jobDao.delete(id);
     }
 }

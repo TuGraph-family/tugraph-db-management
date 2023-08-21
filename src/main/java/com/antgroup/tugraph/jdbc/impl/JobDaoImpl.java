@@ -102,6 +102,6 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public int delete(Integer id) {
-        return 0;
+        return jdbcTemplate.update("DELETE FROM job_status WHERE jobId=?", id);
     }
 }
