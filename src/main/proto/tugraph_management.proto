@@ -33,6 +33,7 @@ message JobStatus {
 }
 
 message JobResult {
+      required int32 job_id = 2;
       required string result = 1;
 }
 
@@ -59,7 +60,7 @@ message ReadJobRequest {
 }
 
 message ReadJobResponse {
-      optional string result = 1;
+      optional JobResult job_result = 1;
       repeated JobStatus job_status = 2;
 }
 
