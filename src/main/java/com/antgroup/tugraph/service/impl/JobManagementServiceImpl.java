@@ -4,6 +4,8 @@ import com.baidu.cloud.starlight.springcloud.server.annotation.RpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @RpcService
 @Slf4j
 public class JobManagementServiceImpl implements JobManagementService {
@@ -36,7 +38,7 @@ public class JobManagementServiceImpl implements JobManagementService {
 
     public TugraphManagement.JobManagementResponse handleCreateJobRequest(TugraphManagement.JobManagementRequest request) {
         String dbId = request.getDbHost() + ":" + request.getDbPort();
-''        log.info("create request db_id = " + dbId);
+        log.info("create request db_id = " + dbId);
 
         JobStatus jobStatus = new JobStatus();
         jobStatus.setDbId(dbId);
@@ -55,6 +57,18 @@ public class JobManagementServiceImpl implements JobManagementService {
     public TugraphManagement.JobManagementResponse handleReadJobRequest(TugraphManagement.JobManagementRequest request) {
         String db_id = request.getDbHost() + ":" + request.getDbPort();
         log.info("read request db_id = " + db_id);
+
+        TugraphManagement.ReadJobRequest.ReadType readType = request.getReadJobRequest().getReadType();
+        if (readType == TugraphManagement.ReadJobRequest.ReadType.READ_ALL){
+            log.info("read all job status");
+            List<JobStatus> jobStatus = jobService.listStatus();
+            for(JobStatus status: jobStatus){
+                log.info("job_id is: " + Integer.toString(status.getJobId()));
+            }
+        } else if(readType == TugraphManagement.ReadJobRequest.ReadType.READ_RESULT){
+            JobResult jobResult = jobService.getResultById(request.getReadJobRequest().getJobId());
+        }
+
         return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.SUCCESS).build();
     }
 

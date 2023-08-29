@@ -51,15 +51,16 @@ message CreateJobResponse {
 
 message ReadJobRequest {
       enum ReadType {
-            READ_ALL = 2;
-            READ_RESULT = 3;
+            READ_ALL = 0;
+            READ_RESULT = 1;
       };
       required ReadType read_type = 4;
       optional int32 job_id = 1;
 }
 
 message ReadJobResponse {
-      required string result = 1;
+      optional string result = 1;
+      repeated JobStatus job_status = 2;
 }
 
 message UpdateJobRequest {
@@ -94,8 +95,8 @@ message JobManagementRequest {
 
 message JobManagementResponse {
       enum ErrorCode {
-            SUCCESS = 1;
-            FAILED = 2;
+            SUCCESS = 0;
+            FAILED = 1;
       };
 
       required ErrorCode error_code = 5;
