@@ -49,14 +49,14 @@ public class JobManagementServiceImpl implements JobManagementService {
                 .setProcedureType(request.getCreateJobRequest().getProcedureType())
                 .setCreator(request.getCreateJobRequest().getCreator())
                 .setCreateTime(request.getCreateJobRequest().getCreateTime());
-
         int jobId = jobService.create(jobStatus);
         TugraphManagement.CreateJobResponse createJobResponse =
             TugraphManagement.CreateJobResponse.newBuilder()
                 .setJobId(jobId)
                 .build();
-                
-        return TugraphManagement.JobManagementResponse.newBuilder()
+
+        return TugraphManagement.JobManagementResponse
+                .newBuilder()
                 .setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED)
                 .setCreateJobResponse(createJobResponse)
                 .build();
@@ -72,7 +72,6 @@ public class JobManagementServiceImpl implements JobManagementService {
             log.info("read all job status");
             List<JobStatus> tempJobStatusList = jobService.listStatus();
             for(JobStatus tempJobStatus: tempJobStatusList){
-                // log.info("job_id is: " + Integer.toString(tempJobStatus.getJobId()));
                 TugraphManagement.JobStatus jobStatus =
                     TugraphManagement.JobStatus.newBuilder()
                         .setDbId(tempJobStatus.getDbId())
@@ -95,9 +94,10 @@ public class JobManagementServiceImpl implements JobManagementService {
                                                     .build();
             readJobResponseBuilder.setJobResult(jobResult);
         }
-
         TugraphManagement.ReadJobResponse readJobResponse = readJobResponseBuilder.build();
-        return TugraphManagement.JobManagementResponse.newBuilder()
+
+        return TugraphManagement.JobManagementResponse
+                .newBuilder()
                 .setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.SUCCESS)
                 .setReadJobResponse(readJobResponse)
                 .build();
@@ -106,27 +106,33 @@ public class JobManagementServiceImpl implements JobManagementService {
     public TugraphManagement.JobManagementResponse handleUpdateJobRequest(TugraphManagement.JobManagementRequest request) {
         String db_id = request.getDbHost() + ":" + request.getDbPort();
         log.info("update request db_id = " + db_id);
-        JobStatus jobStatus = new JobStatus();
-        jobStatus.setJobId(request.getUpdateJobRequest().getJobId());
-        jobStatus.setStatus(request.getUpdateJobRequest().getStatus());
-        jobStatus.setRuntime(request.getUpdateJobRequest().getRuntime());
 
-        JobResult jobResult = new JobResult();
-        jobResult.setJobId(request.getUpdateJobRequest().getJobId());
-        jobResult.setResult(request.getUpdateJobRequest().getResult());
-
+        JobStatus jobStatus =
+            new JobStatus()
+                .setJobId(request.getUpdateJobRequest().getJobId())
+                .setStatus(request.getUpdateJobRequest().getStatus())
+                .setRuntime(request.getUpdateJobRequest().getRuntime());
+        JobResult jobResult =
+            new JobResult()
+                .setJobId(request.getUpdateJobRequest().getJobId())
+                .setResult(request.getUpdateJobRequest().getResult());
         jobService.update(jobStatus, jobResult);
 
-        return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.SUCCESS).build();
+        return TugraphManagement.JobManagementResponse
+                .newBuilder()
+                .setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.SUCCESS)
+                .build();
     }
 
     public TugraphManagement.JobManagementResponse handleDeleteJobRequest(TugraphManagement.JobManagementRequest request) {
         String db_id = request.getDbHost() + ":" + request.getDbPort();
         log.info("delete request db_id = " + db_id);
-        log.info("delete request job_id = " + request.getDeleteJobRequest().getJobId());
 
         jobService.delete(request.getDeleteJobRequest().getJobId());
 
-        return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.SUCCESS).build();
+        return TugraphManagement.JobManagementResponse
+                .newBuilder()
+                .setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.SUCCESS)
+                .build();
     }
 }
