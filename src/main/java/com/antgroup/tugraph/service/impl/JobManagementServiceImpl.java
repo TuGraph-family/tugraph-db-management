@@ -40,18 +40,26 @@ public class JobManagementServiceImpl implements JobManagementService {
         String dbId = request.getDbHost() + ":" + request.getDbPort();
         log.info("create request db_id = " + dbId);
 
-        JobStatus jobStatus = new JobStatus();
-        jobStatus.setDbId(dbId);
-        jobStatus.setStartTime(request.getCreateJobRequest().getStartTime());
-        jobStatus.setPeriod(request.getCreateJobRequest().getPeriod());
-        jobStatus.setProcedureName(request.getCreateJobRequest().getProcedureName());
-        jobStatus.setProcedureType(request.getCreateJobRequest().getProcedureType());
-        jobStatus.setCreator(request.getCreateJobRequest().getCreator());
-        jobStatus.setCreateTime(request.getCreateJobRequest().getCreateTime());
+        JobStatus jobStatus =
+            new JobStatus()
+                .setDbId(dbId)
+                .setStartTime(request.getCreateJobRequest().getStartTime())
+                .setPeriod(request.getCreateJobRequest().getPeriod())
+                .setProcedureName(request.getCreateJobRequest().getProcedureName())
+                .setProcedureType(request.getCreateJobRequest().getProcedureType())
+                .setCreator(request.getCreateJobRequest().getCreator())
+                .setCreateTime(request.getCreateJobRequest().getCreateTime());
 
         int jobId = jobService.create(jobStatus);
-        TugraphManagement.CreateJobResponse createJobResponse = TugraphManagement.CreateJobResponse.newBuilder().setJobId(jobId).build();
-        return TugraphManagement.JobManagementResponse.newBuilder().setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED).setCreateJobResponse(createJobResponse).build();
+        TugraphManagement.CreateJobResponse createJobResponse =
+            TugraphManagement.CreateJobResponse.newBuilder()
+                .setJobId(jobId)
+                .build();
+                
+        return TugraphManagement.JobManagementResponse.newBuilder()
+                .setErrorCode(TugraphManagement.JobManagementResponse.ErrorCode.FAILED)
+                .setCreateJobResponse(createJobResponse)
+                .build();
     }
 
     public TugraphManagement.JobManagementResponse handleReadJobRequest(TugraphManagement.JobManagementRequest request) {
@@ -65,17 +73,18 @@ public class JobManagementServiceImpl implements JobManagementService {
             List<JobStatus> tempJobStatusList = jobService.listStatus();
             for(JobStatus tempJobStatus: tempJobStatusList){
                 // log.info("job_id is: " + Integer.toString(tempJobStatus.getJobId()));
-                TugraphManagement.JobStatus jobStatus = TugraphManagement.JobStatus.newBuilder()
-                                                        .setDbId(tempJobStatus.getDbId())
-                                                        .setJobId(tempJobStatus.getJobId())
-                                                        .setStartTime(tempJobStatus.getStartTime())
-                                                        .setPeriod(tempJobStatus.getPeriod())
-                                                        .setProcedureName(tempJobStatus.getProcedureName())
-                                                        .setProcedureType(tempJobStatus.getProcedureType())
-                                                        .setStatus(tempJobStatus.getStatus())
-                                                        .setCreator(tempJobStatus.getCreator())
-                                                        .setCreateTime(tempJobStatus.getCreateTime())
-                                                        .build();
+                TugraphManagement.JobStatus jobStatus =
+                    TugraphManagement.JobStatus.newBuilder()
+                        .setDbId(tempJobStatus.getDbId())
+                        .setJobId(tempJobStatus.getJobId())
+                        .setStartTime(tempJobStatus.getStartTime())
+                        .setPeriod(tempJobStatus.getPeriod())
+                        .setProcedureName(tempJobStatus.getProcedureName())
+                        .setProcedureType(tempJobStatus.getProcedureType())
+                        .setStatus(tempJobStatus.getStatus())
+                        .setCreator(tempJobStatus.getCreator())
+                        .setCreateTime(tempJobStatus.getCreateTime())
+                        .build();
                 readJobResponseBuilder.addJobStatus(jobStatus);
             }
         } else if(readType == TugraphManagement.ReadJobRequest.ReadType.READ_RESULT){
