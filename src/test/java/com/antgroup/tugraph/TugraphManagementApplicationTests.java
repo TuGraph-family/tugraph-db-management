@@ -11,7 +11,13 @@ class TugraphManagementApplicationTests {
 
 	@Test
 	void contextLoads() {
-		log.info("开始单元测试");
+		log.info("开始单元测试1");
+		Assert.assertEquals(0, 1);
+	}
+
+	@Test
+	void contextLoads2() {
+		log.info("开始单元测试2");
 		Assert.assertEquals(0, 1);
 	}
 
