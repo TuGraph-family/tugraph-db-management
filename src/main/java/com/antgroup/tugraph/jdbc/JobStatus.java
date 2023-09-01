@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class JobStatus{
+public class JobStatus {
     private String dbId;
 
     private Integer jobId;

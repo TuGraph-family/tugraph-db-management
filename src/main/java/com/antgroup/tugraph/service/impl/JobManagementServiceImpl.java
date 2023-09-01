@@ -19,7 +19,7 @@ public class JobManagementServiceImpl implements JobManagementService {
             TugraphManagement.JobManagementResponse
                 .newBuilder();
 
-        switch(request.getReqCase()){
+        switch (request.getReqCase()) {
             case CREATE_JOB_REQUEST:
                 TugraphManagement.CreateJobResponse createJobResp =
                     handleCreateJobRequest(request.getCreateJobRequest(), dbId);
@@ -73,7 +73,7 @@ public class JobManagementServiceImpl implements JobManagementService {
             TugraphManagement.CreateJobResponse.newBuilder()
                 .setJobId(jobId)
                 .build();
-        
+
         return resp;
     }
 
@@ -82,10 +82,10 @@ public class JobManagementServiceImpl implements JobManagementService {
 
         TugraphManagement.ReadJobResponse.Builder respBuilder = TugraphManagement.ReadJobResponse.newBuilder();
         TugraphManagement.ReadJobRequest.ReadType readType = request.getReadType();
-        if (readType == TugraphManagement.ReadJobRequest.ReadType.READ_ALL){
+        if (readType == TugraphManagement.ReadJobRequest.ReadType.READ_ALL) {
             log.info("read all job status");
             List<JobStatus> tempJobStatusList = jobService.listStatus();
-            for(JobStatus tempJobStatus: tempJobStatusList){
+            for (JobStatus tempJobStatus: tempJobStatusList) {
                 TugraphManagement.JobStatus jobStatus =
                     TugraphManagement.JobStatus.newBuilder()
                         .setDbId(tempJobStatus.getDbId())
@@ -100,7 +100,7 @@ public class JobManagementServiceImpl implements JobManagementService {
                         .build();
                 respBuilder.addJobStatus(jobStatus);
             }
-        } else if(readType == TugraphManagement.ReadJobRequest.ReadType.READ_RESULT){
+        } else if (readType == TugraphManagement.ReadJobRequest.ReadType.READ_RESULT) {
             JobResult tempResult = jobService.getResultById(request.getJobId());
             TugraphManagement.JobResult jobResult = TugraphManagement.JobResult.newBuilder()
                                                     .setJobId(tempResult.getJobId())
@@ -142,7 +142,7 @@ public class JobManagementServiceImpl implements JobManagementService {
             TugraphManagement.DeleteJobResponse
                 .newBuilder()
                 .build();
-        
+
         return resp;
     }
 }

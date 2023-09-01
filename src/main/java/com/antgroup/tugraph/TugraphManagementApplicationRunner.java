@@ -2,7 +2,6 @@ package com.antgroup.tugraph;
 
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.ApplicationArguments;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

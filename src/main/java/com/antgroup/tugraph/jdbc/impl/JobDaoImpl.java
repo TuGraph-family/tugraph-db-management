@@ -33,12 +33,12 @@ public class JobDaoImpl implements JobDao {
             + "`runtime` VARCHAR(255),"
             + "`creator` VARCHAR(255),"
             + "`createTime` VARCHAR(255)"
-            +")");
+            + ")");
 
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_result("
             + "`jobId` INTEGER PRIMARY KEY,"
             + "`result` TEXT"
-            +")");
+            + ")");
 	}
 
     @Override
@@ -79,7 +79,7 @@ public class JobDaoImpl implements JobDao {
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 int i = 1;
-                for (Object p : params){
+                for (Object p : params) {
                     ps.setObject(i, p);
                     i++;
                 }
@@ -94,7 +94,7 @@ public class JobDaoImpl implements JobDao {
         jdbcTemplate.update("UPDATE job_status SET status = ? , runtime = ? WHERE jobId=?",
                 jobStatus.getStatus(), jobStatus.getRuntime(), jobStatus.getJobId());
 
-        if(jobStatus.getStatus().equals("SUCCESS")) {
+        if (jobStatus.getStatus().equals("SUCCESS")) {
             jdbcTemplate.update("insert into job_result(jobId, result) values(?,?)",
                 jobResult.getJobId(), jobResult.getResult());
         }
@@ -105,3 +105,4 @@ public class JobDaoImpl implements JobDao {
         return jdbcTemplate.update("DELETE FROM job_status WHERE jobId=?", id);
     }
 }
+
