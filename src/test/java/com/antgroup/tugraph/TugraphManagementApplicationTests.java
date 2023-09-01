@@ -22,7 +22,7 @@ class TugraphManagementApplicationTests {
 	@Test
 	@Order(0)
 	void testCreateJob() {
-		log.info("test create job.");
+		log.info("test create job first.");
 	}
 
 	@Test
