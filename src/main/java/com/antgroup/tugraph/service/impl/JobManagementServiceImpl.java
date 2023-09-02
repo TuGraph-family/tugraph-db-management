@@ -95,6 +95,7 @@ public class JobManagementServiceImpl implements JobManagementService {
                         .setProcedureName(tempJobStatus.getProcedureName())
                         .setProcedureType(tempJobStatus.getProcedureType())
                         .setStatus(tempJobStatus.getStatus())
+                        .setRuntime(tempJobStatus.getRuntime())
                         .setCreator(tempJobStatus.getCreator())
                         .setCreateTime(tempJobStatus.getCreateTime())
                         .build();

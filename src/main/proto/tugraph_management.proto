@@ -28,6 +28,7 @@ message JobStatus {
       required string procedure_name = 6;
       required string procedure_type = 7;
       required string status = 8;
+      required string runtime = 3;
       required string creator = 9;
       required string create_time = 10;
 }
