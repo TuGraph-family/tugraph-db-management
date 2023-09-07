@@ -58,17 +58,16 @@ class TugraphManagementApplicationTests {
 		assertTrue(jobId > 0);
 		log.info("job id is: " + Integer.toString(jobId));
 
-		// test read job
+		// test read job status
 		// set up read job status request
-		TugraphManagement.ReadJobRequest utReadAllJobRequest =
-			TugraphManagement.ReadJobRequest
+		TugraphManagement.ReadJobStatusRequest utReadJobStatusRequest =
+			TugraphManagement.ReadJobStatusRequest
 				.newBuilder()
-				.setReadType(TugraphManagement.ReadJobRequest.ReadType.READ_ALL)
 				.build();
 		// call handleReadJobRequest method, get all job status
-		TugraphManagement.ReadJobResponse readAllJobResp =
-            jobManagementService.handleReadJobRequest(utReadAllJobRequest, dbId);
-		List<TugraphManagement.JobStatus> jobStatusList = readAllJobResp.getJobStatusList();
+		TugraphManagement.ReadJobStatusResponse readJobStatusResp =
+            jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
+		List<TugraphManagement.JobStatus> jobStatusList = readJobStatusResp.getJobStatusList();
 		Integer curJobCount = jobStatusList.size();
 		log.info("total job count: " + Integer.toString(curJobCount));
 		TugraphManagement.JobStatus jobStatus = jobStatusList.get(jobStatusList.size() - 1);
@@ -99,9 +98,9 @@ class TugraphManagementApplicationTests {
             jobManagementService.handleUpdateJobRequest(utUpdateJobRequest, dbId);
 		// assert if updated job status and job result are correct
 		// assert if job status is correct
-		readAllJobResp =
-            jobManagementService.handleReadJobRequest(utReadAllJobRequest, dbId);
-		jobStatusList = readAllJobResp.getJobStatusList();
+		readJobStatusResp =
+            jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
+		jobStatusList = readJobStatusResp.getJobStatusList();
 		assertEquals(curJobCount, jobStatusList.size());
 		jobStatus = jobStatusList.get(jobStatusList.size() - 1);
 		assertEquals(jobStatus.getDbId(), dbId);
@@ -114,15 +113,16 @@ class TugraphManagementApplicationTests {
 		assertEquals(jobStatus.getRuntime(), runtime);
 		assertEquals(jobStatus.getCreator(), creator);
 		assertEquals(jobStatus.getCreateTime(), createTime);
+
+		// test read job result
 		// assert if job result is correct
-		TugraphManagement.ReadJobRequest utReadJobResultRequest =
-			TugraphManagement.ReadJobRequest
+		TugraphManagement.ReadJobResultRequest utReadJobResultRequest =
+			TugraphManagement.ReadJobResultRequest
 				.newBuilder()
-				.setReadType(TugraphManagement.ReadJobRequest.ReadType.READ_RESULT)
 				.setJobId(jobId)
 				.build();
-		TugraphManagement.ReadJobResponse readJobResultResp =
-            jobManagementService.handleReadJobRequest(utReadJobResultRequest, dbId);
+		TugraphManagement.ReadJobResultResponse readJobResultResp =
+            jobManagementService.handleReadJobResultRequest(utReadJobResultRequest, dbId);
 		TugraphManagement.JobResult jobResult = readJobResultResp.getJobResult();
 		assertEquals(jobResult.getJobId(), jobId);
 		assertEquals(jobResult.getResult(), result);
@@ -138,9 +138,9 @@ class TugraphManagementApplicationTests {
 		TugraphManagement.DeleteJobResponse deleteJobResp =
             jobManagementService.handleDeleteJobRequest(utDeleteJobRequest, dbId);
 		// assert if the job has been deleted
-		readAllJobResp =
-            jobManagementService.handleReadJobRequest(utReadAllJobRequest, dbId);
-		jobStatusList = readAllJobResp.getJobStatusList();
+		readJobStatusResp =
+            jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
+		jobStatusList = readJobStatusResp.getJobStatusList();
 		assertEquals(curJobCount, jobStatusList.size() + 1);
 	}
 

@@ -20,7 +20,7 @@ package com.antgroup.tugraph;
 
 option cc_generic_services = true;
 
-enum ErrorCode {
+enum ResponseCode {
             SUCCESS = 0;
             FAILED = 1;
 }
@@ -104,7 +104,7 @@ message JobManagementRequest {
 };
 
 message JobManagementResponse {
-      required ErrorCode error_code = 5;
+      required ResponseCode response_code = 5;
       oneof Resp {
             CreateJobResponse create_job_response = 1;
             ReadJobStatusResponse read_job_status_response = 2;
