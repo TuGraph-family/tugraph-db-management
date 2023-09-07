@@ -20,17 +20,22 @@ package com.antgroup.tugraph;
 
 option cc_generic_services = true;
 
+enum ErrorCode {
+            SUCCESS = 0;
+            FAILED = 1;
+}
+
 message JobStatus {
       required string db_id = 1;
       required int32 job_id = 2;
-      required string start_time = 4;
+      required int64 start_time = 4;
       required string period = 5;
       required string procedure_name = 6;
       required string procedure_type = 7;
       required string status = 8;
-      required string runtime = 3;
+      required int64 runtime = 3;
       required string creator = 9;
-      required string create_time = 10;
+      required int64 create_time = 10;
 }
 
 message JobResult {
@@ -39,36 +44,38 @@ message JobResult {
 }
 
 message CreateJobRequest {
-      required string start_time = 3;
+      required int64 start_time = 3;
       required string period = 4;
       required string procedure_name = 5;
       required string procedure_type = 6;
       required string creator = 7;
-      required string create_time = 8;
+      required int64 create_time = 8;
 }
 
 message CreateJobResponse {
       optional int32 job_id = 2;
 }
 
-message ReadJobRequest {
-      enum ReadType {
-            READ_ALL = 0;
-            READ_RESULT = 1;
-      };
-      required ReadType read_type = 4;
-      optional int32 job_id = 1;
+message ReadJobStatusRequest {
+
 }
 
-message ReadJobResponse {
-      optional JobResult job_result = 1;
+message ReadJobStatusResponse {
       repeated JobStatus job_status = 2;
+}
+
+message ReadJobResultRequest {
+      required int32 job_id = 1;
+}
+
+message ReadJobResultResponse {
+      optional JobResult job_result = 1;
 }
 
 message UpdateJobRequest {
       required int32 job_id = 1;
       required string status = 2;
-      optional string runtime = 3;
+      optional int64 runtime = 3;
       optional string result = 4;
 }
 
@@ -89,22 +96,19 @@ message JobManagementRequest {
       required string db_port = 6;
       oneof Req {
             CreateJobRequest create_job_request = 1;
-            ReadJobRequest read_job_request = 2;
+            ReadJobStatusRequest read_job_status_request = 2;
+            ReadJobResultRequest read_job_result_request = 7;
             UpdateJobRequest update_job_request = 3;
             DeleteJobRequest delete_job_request = 4;
       };
 };
 
 message JobManagementResponse {
-      enum ErrorCode {
-            SUCCESS = 0;
-            FAILED = 1;
-      };
-
       required ErrorCode error_code = 5;
       oneof Resp {
             CreateJobResponse create_job_response = 1;
-            ReadJobResponse read_job_response = 2;
+            ReadJobStatusResponse read_job_status_response = 2;
+            ReadJobResultResponse read_job_result_response = 6;
             UpdateJobResponse update_job_response = 3;
             DeleteJobResponse delete_job_response = 4;
       };
