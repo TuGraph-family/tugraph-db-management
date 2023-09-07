@@ -14,7 +14,7 @@ public class JobStatus {
 
     private Integer jobId;
 
-    private String startTime;
+    private Long startTime;
 
     private String period;
 
@@ -24,9 +24,9 @@ public class JobStatus {
 
     private String status;
 
-    private String runtime;
+    private Long runtime;
 
     private String creator;
 
-    private String createTime;
+    private Long createTime;
 }

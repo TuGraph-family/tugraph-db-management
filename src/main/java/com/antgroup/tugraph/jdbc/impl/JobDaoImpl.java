@@ -24,15 +24,15 @@ public class JobDaoImpl implements JobDao {
     public void initDB() {
 		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_status("
             + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "`dbId` VARCHAR(255),"
-            + "`startTime` VARCHAR(255),"
-            + "`period` VARCHAR(255),"
-            + "`procedureName` VARCHAR(255),"
-            + "`procedureType` VARCHAR(255),"
-            + "`status` VARCHAR(255),"
-            + "`runtime` VARCHAR(255),"
-            + "`creator` VARCHAR(255),"
-            + "`createTime` VARCHAR(255)"
+            + "`dbId` VARCHAR(21),"
+            + "`startTime` INTEGER,"
+            + "`period` VARCHAR(9),"
+            + "`procedureName` TEXT,"
+            + "`procedureType` TEXT,"
+            + "`status` VARCHAR(7),"
+            + "`runtime` INTEGER,"
+            + "`creator` TEXT,"
+            + "`createTime` INTEGER"
             + ")");
 
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_result("
@@ -55,8 +55,8 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public List<JobStatus> listStatus() {
-        List<JobStatus> jobStatus = jdbcTemplate.query("select * from job_status", new BeanPropertyRowMapper<JobStatus>(JobStatus.class));
-        return jobStatus;
+        List<JobStatus> jobStatusList = jdbcTemplate.query("select * from job_status", new BeanPropertyRowMapper<JobStatus>(JobStatus.class));
+        return jobStatusList;
     }
 
     @Override
