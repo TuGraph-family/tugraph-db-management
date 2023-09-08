@@ -53,7 +53,7 @@ message CreateJobRequest {
 }
 
 message CreateJobResponse {
-      optional int32 job_id = 2;
+      required int32 job_id = 2;
 }
 
 message ReadJobStatusRequest {
