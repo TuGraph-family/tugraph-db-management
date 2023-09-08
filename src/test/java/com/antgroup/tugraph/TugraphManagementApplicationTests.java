@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 @SpringBootTest
 @Slf4j
@@ -29,15 +31,20 @@ class TugraphManagementApplicationTests {
 
 		// set up ut job info
 		String dbId = "127.0.0.1:1234";
-		String startTime = "2023-09-01 14:33:57.200";
+		Long startTime = System.currentTimeMillis();
 		String period = "IMMEDIATE";
 		String procedureName = "Unit Test Procedure";
 		String procedureType = "Khop";
 		String status = "SUCCESS";
-		String runtime = "144";
+		Long runtime = 144L;
 		String creator = "tester";
-		String createTime = "2023-09-01 14:33:57.200";
+		Long createTime = System.currentTimeMillis();
 		String result = "unit test procedure result";
+
+		// test java time format
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss:SSS");
+		Date dStart = new Date(startTime);
+		log.info("当前时间为: " + ft.format(dStart));
 
 		// test creat job
 		// set up creat job request
@@ -79,7 +86,7 @@ class TugraphManagementApplicationTests {
 		assertEquals(jobStatus.getProcedureName(), procedureName);
 		assertEquals(jobStatus.getProcedureType(), procedureType);
 		assertEquals(jobStatus.getStatus(), "pending");
-		assertEquals(jobStatus.getRuntime(), "-");
+		assertEquals(jobStatus.getRuntime(), -1L);
 		assertEquals(jobStatus.getCreator(), creator);
 		assertEquals(jobStatus.getCreateTime(), createTime);
 

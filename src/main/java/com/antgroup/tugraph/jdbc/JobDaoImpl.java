@@ -69,7 +69,7 @@ public class JobDaoImpl implements JobDao {
             jobStatus.getProcedureName(),
             jobStatus.getProcedureType(),
             "pending",
-            "-",
+            -1L,
             jobStatus.getCreator(),
             jobStatus.getCreateTime()
         };
