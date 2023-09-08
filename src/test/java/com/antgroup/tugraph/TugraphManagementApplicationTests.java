@@ -95,6 +95,8 @@ class TugraphManagementApplicationTests {
 		assertEquals(jobStatus.getCreator(), creator);
 		assertEquals(jobStatus.getCreateTime(), createTime);
 
+		// test read job status error response
+
 		// test update job
 		// set up update job request
 		TugraphManagement.UpdateJobRequest utUpdateJobRequest =
