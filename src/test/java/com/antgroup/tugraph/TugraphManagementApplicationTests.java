@@ -95,8 +95,6 @@ class TugraphManagementApplicationTests {
 		assertEquals(jobStatus.getCreator(), creator);
 		assertEquals(jobStatus.getCreateTime(), createTime);
 
-		// test read job status error response
-
 		// test update job
 		// set up update job request
 		TugraphManagement.UpdateJobRequest utUpdateJobRequest =
@@ -140,6 +138,17 @@ class TugraphManagementApplicationTests {
 		TugraphManagement.JobResult jobResult = readJobResultResp.getJobResult();
 		assertEquals(jobResult.getJobId(), jobId);
 		assertEquals(jobResult.getResult(), result);
+
+		// test read job result error response
+		TugraphManagement.ReadJobResultRequest utErrReadJobResultRequest =
+			TugraphManagement.ReadJobResultRequest
+				.newBuilder()
+				.setJobId(-1)
+				.build();
+		TugraphManagement.ReadJobResultResponse errReadJobResultResp =
+            jobManagementService.handleReadJobResultRequest(utErrReadJobResultRequest, dbId);
+		assertEquals(errReadJobResultResp.getResponseCode(), TugraphManagement.ResponseCode.FAILED);
+
 
 		// test delete job
 		// set up delete job request
