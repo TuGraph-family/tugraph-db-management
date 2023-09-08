@@ -23,11 +23,17 @@ class TugraphManagementApplicationTests {
 	@Autowired
 	private JobManagementServiceImpl jobManagementService;
 
+	@Autowired
+    private JobService jobService;
+
 	@Test
 	@Transactional
 	@Order(0)
 	void testJobManagementService() {
 		log.info("start testing job management service.");
+
+		// clear all table in db
+		jobService.clearAll();
 
 		// set up ut job info
 		String dbId = "127.0.0.1:1234";
@@ -62,7 +68,7 @@ class TugraphManagementApplicationTests {
 		TugraphManagement.CreateJobResponse createJobResp =
             jobManagementService.handleCreateJobRequest(utCreateJobRequest, dbId);
 		Integer jobId = createJobResp.getJobId();
-		assertTrue(jobId > 0);
+		assertTrue(jobId == 1);
 		log.info("job id is: " + Integer.toString(jobId));
 
 		// test read job status
@@ -75,9 +81,8 @@ class TugraphManagementApplicationTests {
 		TugraphManagement.ReadJobStatusResponse readJobStatusResp =
             jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
 		List<TugraphManagement.JobStatus> jobStatusList = readJobStatusResp.getJobStatusList();
-		Integer curJobCount = jobStatusList.size();
-		log.info("total job count: " + Integer.toString(curJobCount));
-		TugraphManagement.JobStatus jobStatus = jobStatusList.get(jobStatusList.size() - 1);
+		assertEquals(1, jobStatusList.size());
+		TugraphManagement.JobStatus jobStatus = jobStatusList.get(0);
 		// assert if the job status is correct
 		assertEquals(jobStatus.getDbId(), dbId);
 		assertEquals(jobStatus.getJobId(), jobId);
@@ -108,7 +113,7 @@ class TugraphManagementApplicationTests {
 		readJobStatusResp =
             jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
 		jobStatusList = readJobStatusResp.getJobStatusList();
-		assertEquals(curJobCount, jobStatusList.size());
+		assertEquals(1, jobStatusList.size());
 		jobStatus = jobStatusList.get(jobStatusList.size() - 1);
 		assertEquals(jobStatus.getDbId(), dbId);
 		assertEquals(jobStatus.getJobId(), jobId);
@@ -148,7 +153,7 @@ class TugraphManagementApplicationTests {
 		readJobStatusResp =
             jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
 		jobStatusList = readJobStatusResp.getJobStatusList();
-		assertEquals(curJobCount, jobStatusList.size() + 1);
+		assertEquals(0, jobStatusList.size());
 	}
 
 }

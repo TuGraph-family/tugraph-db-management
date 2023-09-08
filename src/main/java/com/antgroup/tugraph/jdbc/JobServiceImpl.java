@@ -43,4 +43,9 @@ public class JobServiceImpl implements JobService {
     public int delete(Integer id) {
         return this.jobDao.delete(id);
     }
+
+    @Override
+    public void clearAll() {
+        this.jobDao.clearAll();
+    }
 }

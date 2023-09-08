@@ -17,4 +17,5 @@ public interface JobService {
 
     int delete(Integer id);
 
+    void clearAll();
 }

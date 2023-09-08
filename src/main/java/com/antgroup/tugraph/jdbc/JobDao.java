@@ -16,4 +16,6 @@ public interface JobDao {
     void update(JobStatus jobStatus, JobResult jobResult);
 
     int delete(Integer id);
+
+    void clearAll();
 }
