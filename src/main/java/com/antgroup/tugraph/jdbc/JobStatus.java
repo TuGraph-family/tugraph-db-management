@@ -26,7 +26,7 @@ public class JobStatus {
 
     private Long runtime;
 
-    private String creator;
+    private String user;
 
     private Long createTime;
 }

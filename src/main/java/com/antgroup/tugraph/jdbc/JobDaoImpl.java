@@ -31,7 +31,7 @@ public class JobDaoImpl implements JobDao {
             + "`procedureType` TEXT,"
             + "`status` VARCHAR(7),"
             + "`runtime` INTEGER,"
-            + "`creator` TEXT,"
+            + "`user` TEXT,"
             + "`createTime` INTEGER"
             + ")");
 
@@ -61,7 +61,7 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public int create(JobStatus jobStatus) {
-        final String sql = "insert into job_status(dbId, startTime, period, procedureName, procedureType, status, runtime, creator, createTime) values(?,?,?,?,?,?,?,?,?)";
+        final String sql = "insert into job_status(dbId, startTime, period, procedureName, procedureType, status, runtime, user, createTime) values(?,?,?,?,?,?,?,?,?)";
         Object[] params = new Object[]{
             jobStatus.getDbId(),
             jobStatus.getStartTime(),
@@ -70,7 +70,7 @@ public class JobDaoImpl implements JobDao {
             jobStatus.getProcedureType(),
             "pending",
             -1L,
-            jobStatus.getCreator(),
+            jobStatus.getUser(),
             jobStatus.getCreateTime()
         };
         KeyHolder keyHolder = new GeneratedKeyHolder();

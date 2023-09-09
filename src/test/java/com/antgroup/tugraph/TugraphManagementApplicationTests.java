@@ -43,7 +43,7 @@ class TugraphManagementApplicationTests {
 		String procedureType = "Khop";
 		String status = "SUCCESS";
 		Long runtime = 144L;
-		String creator = "tester";
+		String user = "tester";
 		Long createTime = System.currentTimeMillis();
 		String result = "unit test procedure result";
 
@@ -61,7 +61,7 @@ class TugraphManagementApplicationTests {
 				.setPeriod(period)
 				.setProcedureName(procedureName)
                 .setProcedureType(procedureType)
-				.setCreator(creator)
+				.setUser(user)
                 .setCreateTime(createTime)
 				.build();
 		// call handleCreateJobRequest method, get job id
@@ -92,7 +92,7 @@ class TugraphManagementApplicationTests {
 		assertEquals(jobStatus.getProcedureType(), procedureType);
 		assertEquals(jobStatus.getStatus(), "pending");
 		assertEquals(jobStatus.getRuntime(), -1L);
-		assertEquals(jobStatus.getCreator(), creator);
+		assertEquals(jobStatus.getUser(), user);
 		assertEquals(jobStatus.getCreateTime(), createTime);
 
 		// test update job
@@ -123,7 +123,7 @@ class TugraphManagementApplicationTests {
 		assertEquals(jobStatus.getProcedureType(), procedureType);
 		assertEquals(jobStatus.getStatus(), status);
 		assertEquals(jobStatus.getRuntime(), runtime);
-		assertEquals(jobStatus.getCreator(), creator);
+		assertEquals(jobStatus.getUser(), user);
 		assertEquals(jobStatus.getCreateTime(), createTime);
 
 		// test read job result

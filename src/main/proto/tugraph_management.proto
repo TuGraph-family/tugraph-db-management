@@ -34,7 +34,7 @@ message JobStatus {
       required string procedure_type = 7;
       required string status = 8;
       required int64 runtime = 3;
-      required string creator = 9;
+      required string user = 9;
       required int64 create_time = 10;
 }
 
@@ -48,7 +48,7 @@ message CreateJobRequest {
       required string period = 4;
       required string procedure_name = 5;
       required string procedure_type = 6;
-      required string creator = 7;
+      required string user = 7;
       required int64 create_time = 8;
 }
 

@@ -108,7 +108,7 @@ public class JobManagementServiceImpl implements JobManagementService {
                     .setPeriod(request.getPeriod())
                     .setProcedureName(request.getProcedureName())
                     .setProcedureType(request.getProcedureType())
-                    .setCreator(request.getCreator())
+                    .setUser(request.getUser())
                     .setCreateTime(request.getCreateTime());
             int jobId = jobService.create(jobStatus);
             resp = respBuilder
@@ -145,7 +145,7 @@ public class JobManagementServiceImpl implements JobManagementService {
                         .setProcedureType(tempJobStatus.getProcedureType())
                         .setStatus(tempJobStatus.getStatus())
                         .setRuntime(tempJobStatus.getRuntime())
-                        .setCreator(tempJobStatus.getCreator())
+                        .setUser(tempJobStatus.getUser())
                         .setCreateTime(tempJobStatus.getCreateTime())
                         .build();
                 respBuilder.addJobStatus(jobStatus);
