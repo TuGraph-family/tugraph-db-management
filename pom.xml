@@ -13,8 +13,20 @@
 	<name>tugraph-management</name>
 	<description>Management application for TuGraph</description>
 
+	<url>https://www.tugraph.org/</url>
+    <organization>
+        <name>Ant Group</name>
+    </organization>
+    <scm>
+        <url>https://github.com/TuGraph-family/tugraph-db-management/</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/TuGraph-family/tugraph-db-management/issues</url>
+    </issueManagement>
+
 	<developers>
-        <developer>
+    	<developer>
             <id>SonglinLyu</id>
             <name>lyusonglinlsl</name>
             <roles>
@@ -41,7 +53,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<lombok.version>1.16.22</lombok.version>
-		<brpc.version>2022.2.0</lombok.version>
+		<brpc.version>2022.2.0</brpc.version>
 		<sqlite-jdbc.version>3.42.0.0</sqlite-jdbc.version>
 	</properties>
 

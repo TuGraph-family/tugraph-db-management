@@ -21,8 +21,8 @@ package com.antgroup.tugraph;
 option cc_generic_services = true;
 
 enum ResponseCode {
-            SUCCESS = 0;
-            FAILED = 1;
+      SUCCESS = 0;
+      FAILED = 1;
 }
 
 message JobStatus {
