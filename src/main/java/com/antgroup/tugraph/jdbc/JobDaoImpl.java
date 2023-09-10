@@ -42,9 +42,9 @@ public class JobDaoImpl implements JobDao {
 	}
 
     @Override
-    public JobStatus getStatusById(Integer id) {
-        JobStatus jobStatus  = jdbcTemplate.queryForObject("select * from job_status where jobId = ?", new BeanPropertyRowMapper<JobStatus>(JobStatus.class), id);
-        return jobStatus;
+    public Job getStatusById(Integer id) {
+        Job Job  = jdbcTemplate.queryForObject("select * from job_status where jobId = ?", new BeanPropertyRowMapper<Job>(Job.class), id);
+        return Job;
     }
 
     @Override
@@ -54,24 +54,24 @@ public class JobDaoImpl implements JobDao {
     }
 
     @Override
-    public List<JobStatus> listStatus() {
-        List<JobStatus> jobStatusList = jdbcTemplate.query("select * from job_status", new BeanPropertyRowMapper<JobStatus>(JobStatus.class));
-        return jobStatusList;
+    public List<Job> listStatus() {
+        List<Job> JobList = jdbcTemplate.query("select * from job_status", new BeanPropertyRowMapper<Job>(Job.class));
+        return JobList;
     }
 
     @Override
-    public int create(JobStatus jobStatus) {
+    public int create(Job Job) {
         final String sql = "insert into job_status(dbId, startTime, period, procedureName, procedureType, status, runtime, user, createTime) values(?,?,?,?,?,?,?,?,?)";
         Object[] params = new Object[]{
-            jobStatus.getDbId(),
-            jobStatus.getStartTime(),
-            jobStatus.getPeriod(),
-            jobStatus.getProcedureName(),
-            jobStatus.getProcedureType(),
+            Job.getDbId(),
+            Job.getStartTime(),
+            Job.getPeriod(),
+            Job.getProcedureName(),
+            Job.getProcedureType(),
             "pending",
             -1L,
-            jobStatus.getUser(),
-            jobStatus.getCreateTime()
+            Job.getUser(),
+            Job.getCreateTime()
         };
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
@@ -90,11 +90,11 @@ public class JobDaoImpl implements JobDao {
     }
 
     @Override
-    public void update(JobStatus jobStatus, JobResult jobResult) {
+    public void update(Job Job, JobResult jobResult) {
         jdbcTemplate.update("UPDATE job_status SET status = ? , runtime = ? WHERE jobId=?",
-                jobStatus.getStatus(), jobStatus.getRuntime(), jobStatus.getJobId());
+                Job.getStatus(), Job.getRuntime(), Job.getJobId());
 
-        if (jobStatus.getStatus().equals("SUCCESS")) {
+        if (Job.getStatus().equals("SUCCESS")) {
             jdbcTemplate.update("insert into job_result(jobId, result) values(?,?)",
                 jobResult.getJobId(), jobResult.getResult());
         }

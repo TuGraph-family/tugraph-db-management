@@ -71,29 +71,29 @@ class TuGraphDBManagementApplicationTests {
 		assertTrue(jobId == 1);
 		log.info("job id is: " + Integer.toString(jobId));
 
-		// test read job status
-		// set up read job status request
-		TuGraphDBManagement.ReadJobStatusRequest utReadJobStatusRequest =
-			TuGraphDBManagement.ReadJobStatusRequest
+		// test read job
+		// set up read job request
+		TuGraphDBManagement.ReadJobRequest utReadJobRequest =
+			TuGraphDBManagement.ReadJobRequest
 				.newBuilder()
 				.build();
 		// call handleReadJobRequest method, get all job status
-		TuGraphDBManagement.ReadJobStatusResponse readJobStatusResp =
-            jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
-		List<TuGraphDBManagement.JobStatus> jobStatusList = readJobStatusResp.getJobStatusList();
-		assertEquals(1, jobStatusList.size());
-		TuGraphDBManagement.JobStatus jobStatus = jobStatusList.get(0);
-		// assert if the job status is correct
-		assertEquals(jobStatus.getDbId(), dbId);
-		assertEquals(jobStatus.getJobId(), jobId);
-		assertEquals(jobStatus.getStartTime(), startTime);
-		assertEquals(jobStatus.getPeriod(), period);
-		assertEquals(jobStatus.getProcedureName(), procedureName);
-		assertEquals(jobStatus.getProcedureType(), procedureType);
-		assertEquals(jobStatus.getStatus(), "pending");
-		assertEquals(jobStatus.getRuntime(), -1L);
-		assertEquals(jobStatus.getUser(), user);
-		assertEquals(jobStatus.getCreateTime(), createTime);
+		TuGraphDBManagement.ReadJobResponse readJobResp =
+            jobManagementService.handleReadJobRequest(utReadJobRequest, dbId);
+		List<TuGraphDBManagement.Job> JobList = readJobResp.getJobList();
+		assertEquals(1, JobList.size());
+		TuGraphDBManagement.Job Job = JobList.get(0);
+		// assert if the job info is correct
+		assertEquals(Job.getDbId(), dbId);
+		assertEquals(Job.getJobId(), jobId);
+		assertEquals(Job.getStartTime(), startTime);
+		assertEquals(Job.getPeriod(), period);
+		assertEquals(Job.getProcedureName(), procedureName);
+		assertEquals(Job.getProcedureType(), procedureType);
+		assertEquals(Job.getStatus(), "pending");
+		assertEquals(Job.getRuntime(), -1L);
+		assertEquals(Job.getUser(), user);
+		assertEquals(Job.getCreateTime(), createTime);
 
 		// test update job
 		// set up update job request
@@ -108,23 +108,23 @@ class TuGraphDBManagementApplicationTests {
 		// call handleUpdateJobRequest method, update ut job
 		TuGraphDBManagement.UpdateJobResponse updateJobResp =
             jobManagementService.handleUpdateJobRequest(utUpdateJobRequest, dbId);
-		// assert if updated job status and job result are correct
-		// assert if job status is correct
-		readJobStatusResp =
-            jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
-		jobStatusList = readJobStatusResp.getJobStatusList();
-		assertEquals(1, jobStatusList.size());
-		jobStatus = jobStatusList.get(jobStatusList.size() - 1);
-		assertEquals(jobStatus.getDbId(), dbId);
-		assertEquals(jobStatus.getJobId(), jobId);
-		assertEquals(jobStatus.getStartTime(), startTime);
-		assertEquals(jobStatus.getPeriod(), period);
-		assertEquals(jobStatus.getProcedureName(), procedureName);
-		assertEquals(jobStatus.getProcedureType(), procedureType);
-		assertEquals(jobStatus.getStatus(), status);
-		assertEquals(jobStatus.getRuntime(), runtime);
-		assertEquals(jobStatus.getUser(), user);
-		assertEquals(jobStatus.getCreateTime(), createTime);
+		// assert if updated job info and job result are correct
+		// assert if job info is correct
+		readJobResp =
+            jobManagementService.handleReadJobRequest(utReadJobRequest, dbId);
+		JobList = readJobResp.getJobList();
+		assertEquals(1, JobList.size());
+		Job = JobList.get(JobList.size() - 1);
+		assertEquals(Job.getDbId(), dbId);
+		assertEquals(Job.getJobId(), jobId);
+		assertEquals(Job.getStartTime(), startTime);
+		assertEquals(Job.getPeriod(), period);
+		assertEquals(Job.getProcedureName(), procedureName);
+		assertEquals(Job.getProcedureType(), procedureType);
+		assertEquals(Job.getStatus(), status);
+		assertEquals(Job.getRuntime(), runtime);
+		assertEquals(Job.getUser(), user);
+		assertEquals(Job.getCreateTime(), createTime);
 
 		// test read job result
 		// assert if job result is correct
@@ -161,10 +161,10 @@ class TuGraphDBManagementApplicationTests {
 		TuGraphDBManagement.DeleteJobResponse deleteJobResp =
             jobManagementService.handleDeleteJobRequest(utDeleteJobRequest, dbId);
 		// assert if the job has been deleted
-		readJobStatusResp =
-            jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
-		jobStatusList = readJobStatusResp.getJobStatusList();
-		assertEquals(0, jobStatusList.size());
+		readJobResp =
+            jobManagementService.handleReadJobRequest(utReadJobRequest, dbId);
+		JobList = readJobResp.getJobList();
+		assertEquals(0, JobList.size());
 	}
 
 }

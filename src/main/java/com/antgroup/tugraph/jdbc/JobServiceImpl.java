@@ -15,7 +15,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobStatus getStatusById(Integer id) {
+    public Job getStatusById(Integer id) {
         return this.jobDao.getStatusById(id);
     }
 
@@ -25,18 +25,18 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<JobStatus> listStatus() {
+    public List<Job> listStatus() {
         return this.jobDao.listStatus();
     }
 
     @Override
-    public int create(JobStatus jobStatus) {
-        return this.jobDao.create(jobStatus);
+    public int create(Job Job) {
+        return this.jobDao.create(Job);
     }
 
     @Override
-    public void update(JobStatus jobStatus, JobResult jobResult) {
-        this.jobDao.update(jobStatus, jobResult);
+    public void update(Job Job, JobResult jobResult) {
+        this.jobDao.update(Job, jobResult);
     }
 
     @Override

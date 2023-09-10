@@ -26,7 +26,7 @@ enum ResponseCode {
       FAILED = 1;
 }
 
-message JobStatus {
+message Job {
       required string db_id = 1;
       required int32 job_id = 2;
       required int64 start_time = 4;
@@ -58,12 +58,12 @@ message CreateJobResponse {
       required ResponseCode response_code = 1;
 }
 
-message ReadJobStatusRequest {
+message ReadJobRequest {
 
 }
 
-message ReadJobStatusResponse {
-      repeated JobStatus job_status = 2;
+message ReadJobResponse {
+      repeated Job job = 2;
       required ResponseCode response_code = 1;
 }
 
@@ -100,7 +100,7 @@ message JobManagementRequest {
       required string db_port = 6;
       oneof Req {
             CreateJobRequest create_job_request = 1;
-            ReadJobStatusRequest read_job_status_request = 2;
+            ReadJobRequest read_job_request = 2;
             ReadJobResultRequest read_job_result_request = 7;
             UpdateJobRequest update_job_request = 3;
             DeleteJobRequest delete_job_request = 4;
@@ -111,7 +111,7 @@ message JobManagementResponse {
       required ResponseCode response_code = 5;
       oneof Resp {
             CreateJobResponse create_job_response = 1;
-            ReadJobStatusResponse read_job_status_response = 2;
+            ReadJobResponse read_job_response = 2;
             ReadJobResultResponse read_job_result_response = 6;
             UpdateJobResponse update_job_response = 3;
             DeleteJobResponse delete_job_response = 4;

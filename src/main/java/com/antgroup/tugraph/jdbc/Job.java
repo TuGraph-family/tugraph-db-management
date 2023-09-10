@@ -9,10 +9,10 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class JobStatus {
-    private String dbId;
-
+public class Job {
     private Integer jobId;
+
+    private String dbId;
 
     private Long startTime;
 

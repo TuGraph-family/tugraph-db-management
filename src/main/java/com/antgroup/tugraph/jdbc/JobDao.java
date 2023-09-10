@@ -5,15 +5,15 @@ import java.util.List;
 public interface JobDao {
     void initDB();
 
-    JobStatus getStatusById(Integer id);
+    Job getStatusById(Integer id);
 
     JobResult getResultById(Integer id);
 
-    List<JobStatus> listStatus();
+    List<Job> listStatus();
 
-    int create(JobStatus jobStatus);
+    int create(Job Job);
 
-    void update(JobStatus jobStatus, JobResult jobResult);
+    void update(Job Job, JobResult jobResult);
 
     int delete(Integer id);
 
