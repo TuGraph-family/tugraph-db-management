@@ -18,7 +18,7 @@ public class Job {
 
     private String period; // PERIODIC, IMMEDIATE, DELAYED
 
-    private String procedureName; 
+    private String procedureName;
 
     private String procedureType;
 
