@@ -7,10 +7,10 @@ import com.baidu.cloud.starlight.springcloud.server.annotation.StarlightScan;
 
 @SpringBootApplication
 @StarlightScan
-public class TugraphManagementApplication {
+public class TuGraphDBManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TugraphManagementApplication.class, args);
+		SpringApplication.run(TuGraphDBManagementApplication.class, args);
 	}
 
 }

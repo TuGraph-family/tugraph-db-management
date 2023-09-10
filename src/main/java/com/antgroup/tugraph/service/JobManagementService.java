@@ -1,5 +1,5 @@
 package com.antgroup.tugraph;
 
 public interface JobManagementService {
-    TugraphManagement.JobManagementResponse handleRequest(TugraphManagement.JobManagementRequest request);
+    TuGraphDBManagement.JobManagementResponse handleRequest(TuGraphDBManagement.JobManagementRequest request);
 }

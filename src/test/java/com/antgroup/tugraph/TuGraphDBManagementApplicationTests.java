@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 @SpringBootTest
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TugraphManagementApplicationTests {
+class TuGraphDBManagementApplicationTests {
 
 	@Autowired
 	private JobManagementServiceImpl jobManagementService;
@@ -54,8 +54,8 @@ class TugraphManagementApplicationTests {
 
 		// test creat job
 		// set up creat job request
-		TugraphManagement.CreateJobRequest utCreateJobRequest =
-			TugraphManagement.CreateJobRequest
+		TuGraphDBManagement.CreateJobRequest utCreateJobRequest =
+			TuGraphDBManagement.CreateJobRequest
 				.newBuilder()
 				.setStartTime(startTime)
 				.setPeriod(period)
@@ -65,7 +65,7 @@ class TugraphManagementApplicationTests {
                 .setCreateTime(createTime)
 				.build();
 		// call handleCreateJobRequest method, get job id
-		TugraphManagement.CreateJobResponse createJobResp =
+		TuGraphDBManagement.CreateJobResponse createJobResp =
             jobManagementService.handleCreateJobRequest(utCreateJobRequest, dbId);
 		Integer jobId = createJobResp.getJobId();
 		assertTrue(jobId == 1);
@@ -73,16 +73,16 @@ class TugraphManagementApplicationTests {
 
 		// test read job status
 		// set up read job status request
-		TugraphManagement.ReadJobStatusRequest utReadJobStatusRequest =
-			TugraphManagement.ReadJobStatusRequest
+		TuGraphDBManagement.ReadJobStatusRequest utReadJobStatusRequest =
+			TuGraphDBManagement.ReadJobStatusRequest
 				.newBuilder()
 				.build();
 		// call handleReadJobRequest method, get all job status
-		TugraphManagement.ReadJobStatusResponse readJobStatusResp =
+		TuGraphDBManagement.ReadJobStatusResponse readJobStatusResp =
             jobManagementService.handleReadJobStatusRequest(utReadJobStatusRequest, dbId);
-		List<TugraphManagement.JobStatus> jobStatusList = readJobStatusResp.getJobStatusList();
+		List<TuGraphDBManagement.JobStatus> jobStatusList = readJobStatusResp.getJobStatusList();
 		assertEquals(1, jobStatusList.size());
-		TugraphManagement.JobStatus jobStatus = jobStatusList.get(0);
+		TuGraphDBManagement.JobStatus jobStatus = jobStatusList.get(0);
 		// assert if the job status is correct
 		assertEquals(jobStatus.getDbId(), dbId);
 		assertEquals(jobStatus.getJobId(), jobId);
@@ -97,8 +97,8 @@ class TugraphManagementApplicationTests {
 
 		// test update job
 		// set up update job request
-		TugraphManagement.UpdateJobRequest utUpdateJobRequest =
-			TugraphManagement.UpdateJobRequest
+		TuGraphDBManagement.UpdateJobRequest utUpdateJobRequest =
+			TuGraphDBManagement.UpdateJobRequest
 				.newBuilder()
 				.setJobId(jobId)
 				.setStatus(status)
@@ -106,7 +106,7 @@ class TugraphManagementApplicationTests {
 				.setResult(result)
 				.build();
 		// call handleUpdateJobRequest method, update ut job
-		TugraphManagement.UpdateJobResponse updateJobResp =
+		TuGraphDBManagement.UpdateJobResponse updateJobResp =
             jobManagementService.handleUpdateJobRequest(utUpdateJobRequest, dbId);
 		// assert if updated job status and job result are correct
 		// assert if job status is correct
@@ -128,37 +128,37 @@ class TugraphManagementApplicationTests {
 
 		// test read job result
 		// assert if job result is correct
-		TugraphManagement.ReadJobResultRequest utReadJobResultRequest =
-			TugraphManagement.ReadJobResultRequest
+		TuGraphDBManagement.ReadJobResultRequest utReadJobResultRequest =
+			TuGraphDBManagement.ReadJobResultRequest
 				.newBuilder()
 				.setJobId(jobId)
 				.build();
-		TugraphManagement.ReadJobResultResponse readJobResultResp =
+		TuGraphDBManagement.ReadJobResultResponse readJobResultResp =
             jobManagementService.handleReadJobResultRequest(utReadJobResultRequest, dbId);
-		TugraphManagement.JobResult jobResult = readJobResultResp.getJobResult();
+		TuGraphDBManagement.JobResult jobResult = readJobResultResp.getJobResult();
 		assertEquals(jobResult.getJobId(), jobId);
 		assertEquals(jobResult.getResult(), result);
 
 		// test read job result error response
-		TugraphManagement.ReadJobResultRequest utErrReadJobResultRequest =
-			TugraphManagement.ReadJobResultRequest
+		TuGraphDBManagement.ReadJobResultRequest utErrReadJobResultRequest =
+			TuGraphDBManagement.ReadJobResultRequest
 				.newBuilder()
 				.setJobId(-1)
 				.build();
-		TugraphManagement.ReadJobResultResponse errReadJobResultResp =
+		TuGraphDBManagement.ReadJobResultResponse errReadJobResultResp =
             jobManagementService.handleReadJobResultRequest(utErrReadJobResultRequest, dbId);
-		assertEquals(errReadJobResultResp.getResponseCode(), TugraphManagement.ResponseCode.FAILED);
+		assertEquals(errReadJobResultResp.getResponseCode(), TuGraphDBManagement.ResponseCode.FAILED);
 
 
 		// test delete job
 		// set up delete job request
-		TugraphManagement.DeleteJobRequest utDeleteJobRequest =
-			TugraphManagement.DeleteJobRequest
+		TuGraphDBManagement.DeleteJobRequest utDeleteJobRequest =
+			TuGraphDBManagement.DeleteJobRequest
 				.newBuilder()
 				.setJobId(jobId)
 				.build();
 		// call handleDeleteJobRequest method, delete ut job
-		TugraphManagement.DeleteJobResponse deleteJobResp =
+		TuGraphDBManagement.DeleteJobResponse deleteJobResp =
             jobManagementService.handleDeleteJobRequest(utDeleteJobRequest, dbId);
 		// assert if the job has been deleted
 		readJobStatusResp =

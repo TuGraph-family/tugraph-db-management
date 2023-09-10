@@ -19,6 +19,7 @@ syntax="proto2";
 package com.antgroup.tugraph;
 
 option cc_generic_services = true;
+option java_outer_classname = "TuGraphDBManagement";
 
 enum ResponseCode {
       SUCCESS = 0;

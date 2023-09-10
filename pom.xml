@@ -7,7 +7,7 @@
 		<artifactId>sofaboot-dependencies</artifactId>
 		<version>3.11.0</version>
 	</parent>
-	<groupId>com.antgroup</groupId>
+	<groupId>com.antgroup.tugraph</groupId>
 	<artifactId>tugraph</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tugraph-management</name>
