@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class JobResult {
-    private Integer JobId;
+    private Integer JobId; // unique integer id.
 
     private String result;
 }

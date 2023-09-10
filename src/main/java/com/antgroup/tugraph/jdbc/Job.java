@@ -10,23 +10,23 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class Job {
-    private Integer jobId;
+    private Integer jobId; // unique self increment integer id.
 
-    private String dbId;
+    private String dbId; // IP:port
 
-    private Long startTime;
+    private Long startTime; // epoch time, ms
 
-    private String period;
+    private String period; // PERIODIC, IMMEDIATE, DELAYED
 
-    private String procedureName;
+    private String procedureName; 
 
     private String procedureType;
 
-    private String status;
+    private String status; // pending, success, failed
 
-    private Long runtime;
+    private Long runtime; // ms
 
     private String user;
 
-    private Long createTime;
+    private Long createTime; // epoch time, ms
 }
