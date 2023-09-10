@@ -22,7 +22,7 @@ public class JobDaoImpl implements JobDao {
     private JdbcTemplate jdbcTemplate;
 
     public void initDB() {
-		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_status("
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job("
             + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "`dbId` VARCHAR(21),"
             + "`startTime` INTEGER,"
@@ -43,7 +43,7 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public Job getStatusById(Integer id) {
-        Job Job  = jdbcTemplate.queryForObject("select * from job_status where jobId = ?", new BeanPropertyRowMapper<Job>(Job.class), id);
+        Job Job  = jdbcTemplate.queryForObject("select * from job where jobId = ?", new BeanPropertyRowMapper<Job>(Job.class), id);
         return Job;
     }
 
@@ -55,13 +55,13 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public List<Job> listStatus() {
-        List<Job> JobList = jdbcTemplate.query("select * from job_status", new BeanPropertyRowMapper<Job>(Job.class));
+        List<Job> JobList = jdbcTemplate.query("select * from job", new BeanPropertyRowMapper<Job>(Job.class));
         return JobList;
     }
 
     @Override
     public int create(Job Job) {
-        final String sql = "insert into job_status(dbId, startTime, period, procedureName, procedureType, status, runtime, user, createTime) values(?,?,?,?,?,?,?,?,?)";
+        final String sql = "insert into job(dbId, startTime, period, procedureName, procedureType, status, runtime, user, createTime) values(?,?,?,?,?,?,?,?,?)";
         Object[] params = new Object[]{
             Job.getDbId(),
             Job.getStartTime(),
@@ -91,7 +91,7 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public void update(Job Job, JobResult jobResult) {
-        jdbcTemplate.update("UPDATE job_status SET status = ? , runtime = ? WHERE jobId=?",
+        jdbcTemplate.update("UPDATE job SET status = ? , runtime = ? WHERE jobId=?",
                 Job.getStatus(), Job.getRuntime(), Job.getJobId());
 
         if (Job.getStatus().equals("SUCCESS")) {
@@ -102,12 +102,12 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public int delete(Integer id) {
-        return jdbcTemplate.update("DELETE FROM job_status WHERE jobId=?", id);
+        return jdbcTemplate.update("DELETE FROM job WHERE jobId=?", id);
     }
 
     @Override
     public void clearAll() {
-        jdbcTemplate.update("DELETE FROM job_status");
+        jdbcTemplate.update("DELETE FROM job");
         jdbcTemplate.update("DELETE FROM job_result");
         jdbcTemplate.update("DELETE FROM sqlite_sequence");
     }
