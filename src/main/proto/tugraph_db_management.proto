@@ -118,6 +118,18 @@ message JobManagementResponse {
       };
 };
 
+message HeartbeatRequest {
+      required string request_msg = 1;
+};
+
+message HeartbeatResponse {
+      required string response_msg = 1;
+};
+
 service JobManagementService {
       rpc handleRequest(JobManagementRequest) returns (JobManagementResponse);
 };
+
+service HeartbeatService {
+      rpc detectHeartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
