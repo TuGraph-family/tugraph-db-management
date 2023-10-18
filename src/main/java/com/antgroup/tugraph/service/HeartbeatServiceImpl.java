@@ -13,10 +13,13 @@ public class HeartbeatServiceImpl implements HeartbeatService {
         String reqMsg = request.getRequestMsg();
         log.info(reqMsg);
         String respMsg = "This is a heartbeat response message.";
+        int heartbeatCount = request.getHeartbeatCount();
         TuGraphDBManagement.HeartbeatResponse.Builder respBuilder =
             TuGraphDBManagement.HeartbeatResponse
                 .newBuilder();
-        respBuilder.setResponseMsg(respMsg);
+        respBuilder
+            .setResponseMsg(respMsg)
+            .setHeartbeatCount(heartbeatCount + 1);
         return respBuilder.build();
     }
 

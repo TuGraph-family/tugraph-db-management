@@ -24,6 +24,9 @@ class TuGraphDBManagementApplicationTests {
 	private JobManagementServiceImpl jobManagementService;
 
 	@Autowired
+	private HeartbeatServiceImpl heartbeatService;
+
+	@Autowired
     private JobService jobService;
 
 	@Test
@@ -165,6 +168,27 @@ class TuGraphDBManagementApplicationTests {
             jobManagementService.handleReadJobRequest(utReadJobRequest, dbId);
 		JobList = readJobResp.getJobList();
 		assertEquals(0, JobList.size());
+	}
+
+	@Test
+	@Transactional
+	@Order(1)
+	void testHeartbeatService() {
+		log.info("start testing heartbeat service.");
+
+		String reqMsg = "This is a heartbeat request message.";
+        int heartbeatCount = 0;
+
+		TuGraphDBManagement.HeartbeatRequest heartbeatRequest =
+            TuGraphDBManagement.HeartbeatRequest
+                .newBuilder()
+				.setRequestMsg(reqMsg)
+				.setHeartbeatCount(heartbeatCount)
+				.build();
+        TuGraphDBManagement.HeartbeatResponse heartbeatResponse =
+			heartbeatService.detectHeartbeat(heartbeatRequest);
+
+		assertEquals(heartbeatCount + 1, heartbeatResponse.getHeartbeatCount());
 	}
 
 }
