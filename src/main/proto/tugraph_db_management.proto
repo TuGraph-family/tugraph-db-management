@@ -59,7 +59,7 @@ message CreateJobResponse {
 }
 
 message ReadJobRequest {
-
+      optional int32 job_id = 1;
 }
 
 message ReadJobResponse {
