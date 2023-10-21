@@ -132,9 +132,9 @@ public class JobManagementServiceImpl implements JobManagementService {
             TuGraphDBManagement.ReadJobResponse
                 .newBuilder();
         TuGraphDBManagement.ReadJobResponse resp;
-        try {
-            List<Job> tempJobList = jobService.listStatus();
-            for (Job tempJob: tempJobList) {
+        if (request.hasJobId()) {
+            try {
+                Job tempJob = jobService.getStatusById(request.getJobId());
                 TuGraphDBManagement.Job Job =
                     TuGraphDBManagement.Job.newBuilder()
                         .setDbId(tempJob.getDbId())
@@ -149,14 +149,41 @@ public class JobManagementServiceImpl implements JobManagementService {
                         .setCreateTime(tempJob.getCreateTime())
                         .build();
                 respBuilder.addJob(Job);
+                resp = respBuilder
+                        .setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS)
+                        .build();
+            } catch (Exception e) {
+                resp = respBuilder
+                        .setResponseCode(TuGraphDBManagement.ResponseCode.FAILED)
+                        .build();
             }
-            resp = respBuilder
-                    .setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS)
-                    .build();
-        } catch (Exception e) {
-            resp = respBuilder
-                    .setResponseCode(TuGraphDBManagement.ResponseCode.FAILED)
-                    .build();
+        } else {
+            try {
+                List<Job> tempJobList = jobService.listStatus();
+                for (Job tempJob: tempJobList) {
+                    TuGraphDBManagement.Job Job =
+                        TuGraphDBManagement.Job.newBuilder()
+                            .setDbId(tempJob.getDbId())
+                            .setJobId(tempJob.getJobId())
+                            .setStartTime(tempJob.getStartTime())
+                            .setPeriod(tempJob.getPeriod())
+                            .setProcedureName(tempJob.getProcedureName())
+                            .setProcedureType(tempJob.getProcedureType())
+                            .setStatus(tempJob.getStatus())
+                            .setRuntime(tempJob.getRuntime())
+                            .setUser(tempJob.getUser())
+                            .setCreateTime(tempJob.getCreateTime())
+                            .build();
+                    respBuilder.addJob(Job);
+                }
+                resp = respBuilder
+                        .setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS)
+                        .build();
+            } catch (Exception e) {
+                resp = respBuilder
+                        .setResponseCode(TuGraphDBManagement.ResponseCode.FAILED)
+                        .build();
+            }
         }
 
         return resp;
