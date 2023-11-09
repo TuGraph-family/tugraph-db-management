@@ -8,7 +8,7 @@ import java.util.List;
 
 import lgraph.management.TuGraphDBManagement;
 
-@RpcService
+@RpcService(serviceId = "lgraph.management.JobManagementService")
 @Slf4j
 public class JobManagementServiceImpl implements JobManagementService {
     @Autowired

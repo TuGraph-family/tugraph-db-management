@@ -4,7 +4,7 @@ import com.baidu.cloud.starlight.springcloud.server.annotation.RpcService;
 import lombok.extern.slf4j.Slf4j;
 import lgraph.management.TuGraphDBManagement;
 
-@RpcService
+@RpcService(serviceId = "lgraph.management.HeartbeatService")
 @Slf4j
 public class HeartbeatServiceImpl implements HeartbeatService {
 
