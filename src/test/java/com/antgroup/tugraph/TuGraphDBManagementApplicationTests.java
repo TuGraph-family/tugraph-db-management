@@ -2,7 +2,7 @@ package com.antgroup.tugraph;
 
 import com.antgroup.tugraph.job.*;
 import com.antgroup.tugraph.service.*;
-import lgraph.TuGraphDBManagement;
+import lgraph.management.TuGraphDBManagement;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;

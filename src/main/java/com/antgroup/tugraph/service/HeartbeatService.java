@@ -1,6 +1,6 @@
 package com.antgroup.tugraph.service;
 
-import lgraph.TuGraphDBManagement;
+import lgraph.management.TuGraphDBManagement;
 
 public interface HeartbeatService {
     TuGraphDBManagement.HeartbeatResponse detectHeartbeat(TuGraphDBManagement.HeartbeatRequest request);

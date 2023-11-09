@@ -2,7 +2,7 @@ package com.antgroup.tugraph.service;
 
 import com.baidu.cloud.starlight.springcloud.server.annotation.RpcService;
 import lombok.extern.slf4j.Slf4j;
-import lgraph.TuGraphDBManagement;
+import lgraph.management.TuGraphDBManagement;
 
 @RpcService
 @Slf4j
