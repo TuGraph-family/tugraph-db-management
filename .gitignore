@@ -6,6 +6,8 @@ logs/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+log.txt
+pidfile.txt
 
 ### STS ###
 .apt_generated
