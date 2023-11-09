@@ -1,4 +1,4 @@
-package com.antgroup.tugraph;
+package com.antgroup.tugraph.job;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class JobResult {
+public class AlgoResult {
     private Integer JobId; // unique integer id.
 
     private String result;

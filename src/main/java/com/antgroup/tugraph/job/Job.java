@@ -1,4 +1,4 @@
-package com.antgroup.tugraph;
+package com.antgroup.tugraph.job;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

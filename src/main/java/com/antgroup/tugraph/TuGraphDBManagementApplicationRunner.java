@@ -1,5 +1,6 @@
 package com.antgroup.tugraph;
 
+import com.antgroup.tugraph.job.JobService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.beans.factory.annotation.Autowired;

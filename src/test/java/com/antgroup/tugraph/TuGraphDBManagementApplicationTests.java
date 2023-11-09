@@ -1,5 +1,8 @@
 package com.antgroup.tugraph;
 
+import com.antgroup.tugraph.job.*;
+import com.antgroup.tugraph.service.*;
+import lgraph.TuGraphDBManagement;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -92,13 +95,13 @@ class TuGraphDBManagementApplicationTests {
 
 		// test read job
 		// set up read job request
-		TuGraphDBManagement.ReadJobRequest utReadJobRequest =
-			TuGraphDBManagement.ReadJobRequest
+		TuGraphDBManagement.GetJobStatusRequest utGetJobStatusRequest =
+			TuGraphDBManagement.GetJobStatusRequest
 				.newBuilder()
 				.build();
-		// call handleReadJobRequest method, get all job status
-		TuGraphDBManagement.ReadJobResponse readJobResp =
-            jobManagementService.handleReadJobRequest(utReadJobRequest, dbId);
+		// call handleGetJobStatusRequest method, get all job status
+		TuGraphDBManagement.GetJobStatusResponse readJobResp =
+            jobManagementService.handleGetJobStatusRequest(utGetJobStatusRequest, dbId);
 		List<TuGraphDBManagement.Job> jobList = readJobResp.getJobList();
 		assertEquals(2, jobList.size());
 		TuGraphDBManagement.Job job = jobList.get(0);
@@ -116,27 +119,27 @@ class TuGraphDBManagementApplicationTests {
 
 		// test update job
 		// set up update job request
-		TuGraphDBManagement.UpdateJobRequest utUpdateJobRequest =
-			TuGraphDBManagement.UpdateJobRequest
+		TuGraphDBManagement.UpdateJobStatusRequest utUpdateJobStatusRequest =
+			TuGraphDBManagement.UpdateJobStatusRequest
 				.newBuilder()
 				.setJobId(jobId2)
 				.setStatus(status)
 				.setRuntime(runtime)
 				.setResult(result)
 				.build();
-		// call handleUpdateJobRequest method, update ut job
-		TuGraphDBManagement.UpdateJobResponse updateJobResp =
-            jobManagementService.handleUpdateJobRequest(utUpdateJobRequest, dbId);
+		// call handleUpdateJobStatusRequest method, update ut job
+		TuGraphDBManagement.UpdateJobStatusResponse updateJobResp =
+            jobManagementService.handleUpdateJobStatusRequest(utUpdateJobStatusRequest, dbId);
 		// assert if updated job info and job result are correct
 		// assert if job info is correct
 		// test read job status by job id
-		TuGraphDBManagement.ReadJobRequest utReadJobByIdRequest =
-			TuGraphDBManagement.ReadJobRequest
+		TuGraphDBManagement.GetJobStatusRequest utReadJobByIdRequest =
+			TuGraphDBManagement.GetJobStatusRequest
 				.newBuilder()
 				.setJobId(jobId2)
 				.build();
-		TuGraphDBManagement.ReadJobResponse readJobByIdResp =
-            jobManagementService.handleReadJobRequest(utReadJobByIdRequest, dbId);
+		TuGraphDBManagement.GetJobStatusResponse readJobByIdResp =
+            jobManagementService.handleGetJobStatusRequest(utReadJobByIdRequest, dbId);
 		jobList = readJobByIdResp.getJobList();
 		assertEquals(1, jobList.size());
 		TuGraphDBManagement.Job job2 = jobList.get(0);
@@ -153,26 +156,26 @@ class TuGraphDBManagementApplicationTests {
 
 		// test read job result
 		// assert if job result is correct
-		TuGraphDBManagement.ReadJobResultRequest utReadJobResultRequest =
-			TuGraphDBManagement.ReadJobResultRequest
+		TuGraphDBManagement.GetAlgoResultRequest utGetAlgoResultRequest =
+			TuGraphDBManagement.GetAlgoResultRequest
 				.newBuilder()
 				.setJobId(jobId2)
 				.build();
-		TuGraphDBManagement.ReadJobResultResponse readJobResultResp =
-            jobManagementService.handleReadJobResultRequest(utReadJobResultRequest, dbId);
-		TuGraphDBManagement.JobResult jobResult = readJobResultResp.getJobResult();
-		assertEquals(jobResult.getJobId(), jobId2);
-		assertEquals(jobResult.getResult(), result);
+		TuGraphDBManagement.GetAlgoResultResponse readAlgoResultResp =
+            jobManagementService.handleGetAlgoResultRequest(utGetAlgoResultRequest, dbId);
+		TuGraphDBManagement.AlgoResult AlgoResult = readAlgoResultResp.getAlgoResult();
+		assertEquals(AlgoResult.getJobId(), jobId2);
+		assertEquals(AlgoResult.getResult(), result);
 
 		// test read job result error response
-		TuGraphDBManagement.ReadJobResultRequest utErrReadJobResultRequest =
-			TuGraphDBManagement.ReadJobResultRequest
+		TuGraphDBManagement.GetAlgoResultRequest utErrGetAlgoResultRequest =
+			TuGraphDBManagement.GetAlgoResultRequest
 				.newBuilder()
 				.setJobId(-1)
 				.build();
-		TuGraphDBManagement.ReadJobResultResponse errReadJobResultResp =
-            jobManagementService.handleReadJobResultRequest(utErrReadJobResultRequest, dbId);
-		assertEquals(errReadJobResultResp.getResponseCode(), TuGraphDBManagement.ResponseCode.FAILED);
+		TuGraphDBManagement.GetAlgoResultResponse errReadAlgoResultResp =
+            jobManagementService.handleGetAlgoResultRequest(utErrGetAlgoResultRequest, dbId);
+		assertEquals(errReadAlgoResultResp.getResponseCode(), TuGraphDBManagement.ResponseCode.FAILED);
 
 
 		// test delete job
@@ -187,7 +190,7 @@ class TuGraphDBManagementApplicationTests {
             jobManagementService.handleDeleteJobRequest(utDeleteJobRequest, dbId);
 		// assert if the job has been deleted
 		readJobResp =
-            jobManagementService.handleReadJobRequest(utReadJobRequest, dbId);
+            jobManagementService.handleGetJobStatusRequest(utGetJobStatusRequest, dbId);
 		jobList = readJobResp.getJobList();
 		assertEquals(1, jobList.size());
 		assertEquals(jobId2, jobList.get(0).getJobId());

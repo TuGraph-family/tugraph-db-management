@@ -7,11 +7,12 @@
 		<artifactId>sofaboot-dependencies</artifactId>
 		<version>3.11.0</version>
 	</parent>
+
 	<groupId>com.antgroup.tugraph</groupId>
-	<artifactId>tugraph</artifactId>
+	<artifactId>tugraph-db-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tugraph-management</name>
-	<description>Management application for TuGraph</description>
+	<name>tugraph-db-management</name>
+	<description>Algorithm Job Management applications for TuGraph</description>
 
 	<url>https://www.tugraph.org/</url>
     <organization>
@@ -115,7 +116,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!--编译proto文件为Java对象-->
             <plugin>
                 <groupId>com.github.os72</groupId>
                 <artifactId>protoc-jar-maven-plugin</artifactId>
@@ -127,8 +127,8 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
+							<outputDirectory>src/main/java</outputDirectory>
                             <inputDirectories>
-                                <!--proto文件存放位置-->
                                 <include>src/main/proto</include>
                             </inputDirectories>
                         </configuration>

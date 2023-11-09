@@ -1,4 +1,4 @@
-package com.antgroup.tugraph;
+package com.antgroup.tugraph.job;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobResult getResultById(Integer id) {
+    public AlgoResult getResultById(Integer id) {
         return this.jobDao.getResultById(id);
     }
 
@@ -35,8 +35,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void update(Job Job, JobResult jobResult) {
-        this.jobDao.update(Job, jobResult);
+    public void update(Job Job, AlgoResult AlgoResult) {
+        this.jobDao.update(Job, AlgoResult);
     }
 
     @Override

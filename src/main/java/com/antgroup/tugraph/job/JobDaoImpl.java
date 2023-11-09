@@ -1,4 +1,4 @@
-package com.antgroup.tugraph;
+package com.antgroup.tugraph.job;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +48,9 @@ public class JobDaoImpl implements JobDao {
     }
 
     @Override
-    public JobResult getResultById(Integer id) {
-        JobResult jobResult  = jdbcTemplate.queryForObject("select * from job_result where jobId = ?", new BeanPropertyRowMapper<JobResult>(JobResult.class), id);
-        return jobResult;
+    public AlgoResult getResultById(Integer id) {
+        AlgoResult AlgoResult  = jdbcTemplate.queryForObject("select * from job_result where jobId = ?", new BeanPropertyRowMapper<AlgoResult>(AlgoResult.class), id);
+        return AlgoResult;
     }
 
     @Override
@@ -90,13 +90,13 @@ public class JobDaoImpl implements JobDao {
     }
 
     @Override
-    public void update(Job Job, JobResult jobResult) {
+    public void update(Job Job, AlgoResult AlgoResult) {
         jdbcTemplate.update("UPDATE job SET status = ? , runtime = ? WHERE jobId=?",
                 Job.getStatus(), Job.getRuntime(), Job.getJobId());
 
         if (Job.getStatus().equals("SUCCESS")) {
             jdbcTemplate.update("insert into job_result(jobId, result) values(?,?)",
-                jobResult.getJobId(), jobResult.getResult());
+                AlgoResult.getJobId(), AlgoResult.getResult());
         }
     }
 
