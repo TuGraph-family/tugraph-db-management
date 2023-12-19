@@ -100,11 +100,8 @@ public class JobDaoImpl implements JobDao {
     public void update(Job Job, AlgoResult AlgoResult) {
         jdbcTemplate.update("UPDATE job SET status = ? , runtime = ? WHERE taskId=?",
                             Job.getStatus(), Job.getRuntime(), Job.getTaskId());
-
-        if (Job.getStatus().equals("SUCCESS")) {
-            jdbcTemplate.update("insert into job_result(taskId, result) values(?,?)",
-                                AlgoResult.getTaskId(), AlgoResult.getResult());
-        }
+        jdbcTemplate.update("insert into job_result(taskId, result) values(?,?)",
+                            AlgoResult.getTaskId(), AlgoResult.getResult());
     }
 
     @Override
