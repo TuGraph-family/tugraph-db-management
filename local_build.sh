@@ -7,7 +7,7 @@ echo "<settings>
     <mirror>
       <id>alimaven</id>
       <mirrorOf>central</mirrorOf>
-      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+      <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
     </mirror>
   </mirrors>
 </settings>" > ~/.m2/settings.xml
