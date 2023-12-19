@@ -84,10 +84,10 @@ class TuGraphDBManagementApplicationTests {
                                                                     .build(), dbId);
 
         // test read job status
-        GetJobStatusResponse readJobResp =
+        JobManagementResponse readJobResp =
             jobManagementService.handleGetJobStatusRequest(GetJobStatusRequest.newBuilder().build(),
                                                            dbId);
-        List<Job> jobList = readJobResp.getJobList();
+        List<Job> jobList = readJobResp.getGetJobStatusResponse().getJobList();
         assertEquals(2, jobList.size());
         Job job = jobList.get(0);
         assertEquals(job.getJobId(), 1);
@@ -115,9 +115,9 @@ class TuGraphDBManagementApplicationTests {
         // test read job status by job id
         GetJobStatusRequest utReadJobByIdRequest =
             GetJobStatusRequest.newBuilder().setTaskId(uuid2).build();
-        GetJobStatusResponse readJobByIdResp =
+        JobManagementResponse readJobByIdResp =
             jobManagementService.handleGetJobStatusRequest(utReadJobByIdRequest, dbId);
-        jobList = readJobByIdResp.getJobList();
+        jobList = readJobByIdResp.getGetJobStatusResponse().getJobList();
         assertEquals(1, jobList.size());
         Job job2 = jobList.get(0);
         assertEquals(job2.getDbId(), dbId);
@@ -134,17 +134,17 @@ class TuGraphDBManagementApplicationTests {
 
         // test read job result
         // assert if job result is correct
-        GetAlgoResultResponse readAlgoResultResp = jobManagementService.handleGetAlgoResultRequest(GetAlgoResultRequest
+        JobManagementResponse readAlgoResultResp = jobManagementService.handleGetAlgoResultRequest(GetAlgoResultRequest
                                                                                                        .newBuilder()
                                                                                                        .setTaskId(uuid2)
                                                                                                        .build(), dbId);
-        AlgoResult AlgoResult = readAlgoResultResp.getAlgoResult();
+        AlgoResult AlgoResult = readAlgoResultResp.getGetAlgoResultResponse().getAlgoResult();
         assertEquals(AlgoResult.getTaskId(), uuid2);
         assertEquals(AlgoResult.getResult(), result);
 
         // test read job result error response
         GetAlgoResultRequest utErrGetAlgoResultRequest = GetAlgoResultRequest.newBuilder().setTaskId("").build();
-        GetAlgoResultResponse errReadAlgoResultResp =
+        JobManagementResponse errReadAlgoResultResp =
             jobManagementService.handleGetAlgoResultRequest(utErrGetAlgoResultRequest, dbId);
         assertEquals(errReadAlgoResultResp.getResponseCode(), ResponseCode.FAILED);
 
@@ -156,7 +156,7 @@ class TuGraphDBManagementApplicationTests {
         // assert if the job has been deleted
         readJobResp =
             jobManagementService.handleGetJobStatusRequest(GetJobStatusRequest.newBuilder().build(), dbId);
-        jobList = readJobResp.getJobList();
+        jobList = readJobResp.getGetJobStatusResponse().getJobList();
         assertEquals(1, jobList.size());
         assertEquals(uuid2, jobList.get(0).getTaskId());
     }

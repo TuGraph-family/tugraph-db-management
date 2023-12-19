@@ -29,53 +29,29 @@ public class JobManagementServiceImpl implements JobManagementService {
     @Override
     public TuGraphDBManagement.JobManagementResponse handleRequest(TuGraphDBManagement.JobManagementRequest request) {
         String dbId = request.getDbHost() + ":" + request.getDbPort();
-        TuGraphDBManagement.JobManagementResponse.Builder respBuilder =
-            TuGraphDBManagement.JobManagementResponse.newBuilder();
-
         switch (request.getReqCase()) {
             case CREATE_JOB_REQUEST:
-                TuGraphDBManagement.CreateJobResponse createJobResp =
-                    handleCreateJobRequest(request.getCreateJobRequest(), dbId);
-                respBuilder.setCreateJobResponse(createJobResp);
-                respBuilder.setResponseCode(createJobResp.getResponseCode());
-                break;
+                return handleCreateJobRequest(request.getCreateJobRequest(), dbId);
             case GET_JOB_STATUS_REQUEST:
-                TuGraphDBManagement.GetJobStatusResponse readJobResp =
-                    handleGetJobStatusRequest(request.getGetJobStatusRequest(), dbId);
-                respBuilder.setGetJobStatusResponse(readJobResp);
-                respBuilder.setResponseCode(readJobResp.getResponseCode());
-                break;
+                return handleGetJobStatusRequest(request.getGetJobStatusRequest(), dbId);
             case GET_ALGO_RESULT_REQUEST:
-                TuGraphDBManagement.GetAlgoResultResponse readAlgoResultResp =
-                    handleGetAlgoResultRequest(request.getGetAlgoResultRequest(), dbId);
-                respBuilder.setGetAlgoResultResponse(readAlgoResultResp);
-                respBuilder.setResponseCode(readAlgoResultResp.getResponseCode());
-                break;
+                return handleGetAlgoResultRequest(request.getGetAlgoResultRequest(), dbId);
             case UPDATE_JOB_STATUS_REQUEST:
-                TuGraphDBManagement.UpdateJobStatusResponse updateJobResp =
-                    handleUpdateJobStatusRequest(request.getUpdateJobStatusRequest(), dbId);
-                respBuilder.setUpdateJobStatusResponse(updateJobResp);
-                respBuilder.setResponseCode(updateJobResp.getResponseCode());
-                break;
+                return handleUpdateJobStatusRequest(request.getUpdateJobStatusRequest(), dbId);
             case DELETE_JOB_REQUEST:
-                TuGraphDBManagement.DeleteJobResponse deleteJobResp =
-                    handleDeleteJobRequest(request.getDeleteJobRequest(), dbId);
-                respBuilder.setDeleteJobResponse(deleteJobResp);
-                respBuilder.setResponseCode(deleteJobResp.getResponseCode());
-                break;
+                return handleDeleteJobRequest(request.getDeleteJobRequest(), dbId);
             default:
-                respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED);
+                return TuGraphDBManagement.JobManagementResponse.newBuilder().setResponseCode(
+                    TuGraphDBManagement.ResponseCode.FAILED).setMessage("Unrecognized request type").build();
         }
-
-        return respBuilder.build();
     }
 
-    public TuGraphDBManagement.CreateJobResponse handleCreateJobRequest(TuGraphDBManagement.CreateJobRequest request,
-                                                                        String dbId) {
+    public TuGraphDBManagement.JobManagementResponse handleCreateJobRequest(
+        TuGraphDBManagement.CreateJobRequest request, String dbId) {
         log.info("[CreateJob] Request call from db: " + dbId);
 
-        TuGraphDBManagement.CreateJobResponse.Builder respBuilder = TuGraphDBManagement.CreateJobResponse.newBuilder();
-        TuGraphDBManagement.CreateJobResponse resp;
+        TuGraphDBManagement.JobManagementResponse.Builder respBuilder =
+            TuGraphDBManagement.JobManagementResponse.newBuilder();
         try {
             Job Job = new Job()
                 .setDbId(dbId)
@@ -88,22 +64,29 @@ public class JobManagementServiceImpl implements JobManagementService {
                 .setUser(request.getUser())
                 .setCreateTime(request.getCreateTime());
             int jobId = jobService.create(Job);
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS).build();
+            respBuilder.setCreateJobResponse(
+                TuGraphDBManagement.CreateJobResponse.newBuilder().setJobId(jobId).build());
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS);
+            respBuilder.setMessage("[CreateJob] Succeed");
         } catch (Exception e) {
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED).build();
+            String errorMessage = "[CreateJob] Respond Error. Reason: " + e.getMessage();
+            log.info(errorMessage);
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED);
+            respBuilder.setMessage(e.getMessage());
         }
 
-        return resp;
+        return respBuilder.build();
     }
 
-    public TuGraphDBManagement.GetJobStatusResponse handleGetJobStatusRequest(
+    public TuGraphDBManagement.JobManagementResponse handleGetJobStatusRequest(
         TuGraphDBManagement.GetJobStatusRequest request, String dbId) {
         log.info("[GetJobStatus] Request call from db: " + dbId);
 
-        TuGraphDBManagement.GetJobStatusResponse.Builder respBuilder =
-            TuGraphDBManagement.GetJobStatusResponse.newBuilder();
-        TuGraphDBManagement.GetJobStatusResponse resp;
+        TuGraphDBManagement.JobManagementResponse.Builder respBuilder =
+            TuGraphDBManagement.JobManagementResponse.newBuilder();
         try {
+            TuGraphDBManagement.GetJobStatusResponse.Builder jobStatusBuilder =
+                TuGraphDBManagement.GetJobStatusResponse.newBuilder();
             if (request.hasTaskId()) {
                 Job tempJob = jobService.getStatusById(request.getTaskId());
                 TuGraphDBManagement.Job Job = TuGraphDBManagement.Job.newBuilder()
@@ -120,7 +103,7 @@ public class JobManagementServiceImpl implements JobManagementService {
                                                                      .setUser(tempJob.getUser())
                                                                      .setCreateTime(tempJob.getCreateTime())
                                                                      .build();
-                respBuilder.addJob(Job);
+                jobStatusBuilder.addJob(Job);
             } else {
                 List<Job> tempJobList = jobService.listStatus();
                 for (Job tempJob : tempJobList) {
@@ -138,26 +121,29 @@ public class JobManagementServiceImpl implements JobManagementService {
                                                                          .setUser(tempJob.getUser())
                                                                          .setCreateTime(tempJob.getCreateTime())
                                                                          .build();
-                    respBuilder.addJob(Job);
+                    jobStatusBuilder.addJob(Job);
                 }
             }
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS).build();
-            log.info("[GetJobStatus] Respond with " + respBuilder.getJobCount() + " jobs");
+            log.info("[GetJobStatus] Respond with " + jobStatusBuilder.getJobCount() + " jobs");
+            respBuilder.setGetJobStatusResponse(jobStatusBuilder.build());
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS);
+            respBuilder.setMessage("[GetJobStatus] Succeed");
         } catch (Exception e) {
-            log.info("[GetJobStatus] Respond Error. Reason: " + e.getMessage());
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED).build();
+            String errorMessage = "[GetJobStatus] Respond Error. Reason: " + e.getMessage();
+            log.info(errorMessage);
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED);
+            respBuilder.setMessage(errorMessage);
         }
 
-        return resp;
+        return respBuilder.build();
     }
 
-    public TuGraphDBManagement.GetAlgoResultResponse handleGetAlgoResultRequest(
+    public TuGraphDBManagement.JobManagementResponse handleGetAlgoResultRequest(
         TuGraphDBManagement.GetAlgoResultRequest request, String dbId) {
         log.info("[GetAlgoResult] Request call from db: " + dbId);
 
-        TuGraphDBManagement.GetAlgoResultResponse.Builder respBuilder =
-            TuGraphDBManagement.GetAlgoResultResponse.newBuilder();
-        TuGraphDBManagement.GetAlgoResultResponse resp;
+        TuGraphDBManagement.JobManagementResponse.Builder respBuilder =
+            TuGraphDBManagement.JobManagementResponse.newBuilder();
         try {
             AlgoResult tempResult = jobService.getResultById(request.getTaskId());
             TuGraphDBManagement.AlgoResult AlgoResult = TuGraphDBManagement.AlgoResult
@@ -165,28 +151,26 @@ public class JobManagementServiceImpl implements JobManagementService {
                 .setTaskId(tempResult.getTaskId())
                 .setResult(tempResult.getResult())
                 .build();
-            resp = respBuilder.setAlgoResult(AlgoResult)
-                              .setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS)
-                              .build();
+            respBuilder.setGetAlgoResultResponse(
+                TuGraphDBManagement.GetAlgoResultResponse.newBuilder().setAlgoResult(AlgoResult).build());
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS);
+            respBuilder.setMessage("[GetAlgoResult] Succeed");
         } catch (Exception e) {
-            TuGraphDBManagement.AlgoResult emptyAlgoResult =
-                TuGraphDBManagement.AlgoResult.newBuilder().setTaskId("").setResult("").build();
-            resp = respBuilder
-                .setAlgoResult(emptyAlgoResult)
-                .setResponseCode(TuGraphDBManagement.ResponseCode.FAILED)
-                .build();
+            String errorMessage = "[GetAlgoResult] Respond Error. Reason: " + e.getMessage();
+            log.info(errorMessage);
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED);
+            respBuilder.setMessage(errorMessage);
         }
 
-        return resp;
+        return respBuilder.build();
     }
 
-    public TuGraphDBManagement.UpdateJobStatusResponse handleUpdateJobStatusRequest(
+    public TuGraphDBManagement.JobManagementResponse handleUpdateJobStatusRequest(
         TuGraphDBManagement.UpdateJobStatusRequest request, String dbId) {
         log.info("[UpdateJobStatus] Request call from db: " + dbId);
 
-        TuGraphDBManagement.UpdateJobStatusResponse.Builder respBuilder =
-            TuGraphDBManagement.UpdateJobStatusResponse.newBuilder();
-        TuGraphDBManagement.UpdateJobStatusResponse resp;
+        TuGraphDBManagement.JobManagementResponse.Builder respBuilder =
+            TuGraphDBManagement.JobManagementResponse.newBuilder();
         try {
             Job Job = new Job().setTaskId(request.getTaskId())
                                .setStatus(request.getStatus())
@@ -195,27 +179,38 @@ public class JobManagementServiceImpl implements JobManagementService {
                 .setTaskId(request.getTaskId())
                 .setResult(request.getResult());
             jobService.update(Job, AlgoResult);
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS).build();
+            respBuilder.setUpdateJobStatusResponse(TuGraphDBManagement.UpdateJobStatusResponse.newBuilder().build());
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS);
+            respBuilder.setMessage("[UpdateJobStatus] Succeed");
         } catch (Exception e) {
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED).build();
+            String errorMessage = "[UpdateJobStatus] Respond Error. Reason: " + e.getMessage();
+            log.info(errorMessage);
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED);
+            respBuilder.setMessage(errorMessage);
         }
 
-        return resp;
+        return respBuilder.build();
     }
 
-    public TuGraphDBManagement.DeleteJobResponse handleDeleteJobRequest(TuGraphDBManagement.DeleteJobRequest request,
-                                                                        String dbId) {
+    public TuGraphDBManagement.JobManagementResponse handleDeleteJobRequest(
+        TuGraphDBManagement.DeleteJobRequest request, String dbId) {
         log.info("[DeleteJob] Request call from db: " + dbId);
 
-        TuGraphDBManagement.DeleteJobResponse.Builder respBuilder = TuGraphDBManagement.DeleteJobResponse.newBuilder();
-        TuGraphDBManagement.DeleteJobResponse resp;
+        TuGraphDBManagement.JobManagementResponse.Builder respBuilder =
+            TuGraphDBManagement.JobManagementResponse.newBuilder();
+
         try {
             jobService.delete(request.getTaskId());
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS).build();
+            respBuilder.setDeleteJobResponse(TuGraphDBManagement.DeleteJobResponse.newBuilder().build());
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.SUCCESS);
+            respBuilder.setMessage("[DeleteJob] Succeed");
         } catch (Exception e) {
-            resp = respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED).build();
+            String errorMessage = "[DeleteJob] Respond Error. Reason: " + e.getMessage();
+            log.info(errorMessage);
+            respBuilder.setResponseCode(TuGraphDBManagement.ResponseCode.FAILED);
+            respBuilder.setMessage(errorMessage);
         }
 
-        return resp;
+        return respBuilder.build();
     }
 }

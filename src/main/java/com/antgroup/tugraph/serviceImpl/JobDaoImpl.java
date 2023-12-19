@@ -9,9 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import java.sql.SQLException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import lombok.extern.slf4j.Slf4j;
@@ -87,17 +84,14 @@ public class JobDaoImpl implements JobDao {
             Job.getCreateTime()
         };
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                int i = 1;
-                for (Object p : params) {
-                    ps.setObject(i, p);
-                    i++;
-                }
-                return ps;
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            int i = 1;
+            for (Object p : params) {
+                ps.setObject(i, p);
+                i++;
             }
+            return ps;
         }, keyHolder);
         return keyHolder.getKey().intValue();
     }
