@@ -130,8 +130,5 @@ message HeartbeatResponse {
 
 service JobManagementService {
       rpc handleRequest(JobManagementRequest) returns (JobManagementResponse);
-};
-
-service HeartbeatService {
       rpc detectHeartbeat(HeartbeatRequest) returns (HeartbeatResponse);
 }

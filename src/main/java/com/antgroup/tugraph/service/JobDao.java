@@ -1,8 +1,10 @@
-package com.antgroup.tugraph.job;
+package com.antgroup.tugraph.service;
 
+import com.antgroup.tugraph.model.AlgoResult;
+import com.antgroup.tugraph.model.Job;
 import java.util.List;
 
-public interface JobService {
+public interface JobDao {
     void initDB();
 
     Job getStatusById(Integer id);

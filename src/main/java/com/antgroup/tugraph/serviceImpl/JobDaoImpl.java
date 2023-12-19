@@ -1,5 +1,8 @@
-package com.antgroup.tugraph.job;
+package com.antgroup.tugraph.serviceImpl;
 
+import com.antgroup.tugraph.model.AlgoResult;
+import com.antgroup.tugraph.model.Job;
+import com.antgroup.tugraph.service.JobDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

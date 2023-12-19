@@ -1,7 +1,7 @@
 package com.antgroup.tugraph;
 
-import com.antgroup.tugraph.job.*;
-import com.antgroup.tugraph.service.*;
+import com.antgroup.tugraph.service.JobService;
+import com.antgroup.tugraph.serviceImpl.JobManagementServiceImpl;
 import lgraph.management.TuGraphDBManagement;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,9 +25,6 @@ class TuGraphDBManagementApplicationTests {
 
 	@Autowired
 	private JobManagementServiceImpl jobManagementService;
-
-	@Autowired
-	private HeartbeatServiceImpl heartbeatService;
 
 	@Autowired
     private JobService jobService;
@@ -212,7 +209,7 @@ class TuGraphDBManagementApplicationTests {
 				.setHeartbeatCount(heartbeatCount)
 				.build();
         TuGraphDBManagement.HeartbeatResponse heartbeatResponse =
-			heartbeatService.detectHeartbeat(heartbeatRequest);
+			jobManagementService.detectHeartbeat(heartbeatRequest);
 
 		assertEquals(heartbeatCount + 1, heartbeatResponse.getHeartbeatCount());
 	}

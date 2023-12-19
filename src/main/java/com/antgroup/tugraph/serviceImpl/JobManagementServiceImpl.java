@@ -1,6 +1,8 @@
-package com.antgroup.tugraph.service;
+package com.antgroup.tugraph.serviceImpl;
 
-import com.antgroup.tugraph.job.*;
+import com.antgroup.tugraph.model.*;
+import com.antgroup.tugraph.service.JobManagementService;
+import com.antgroup.tugraph.service.JobService;
 import com.baidu.cloud.starlight.springcloud.server.annotation.RpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,22 @@ import lgraph.management.TuGraphDBManagement;
 public class JobManagementServiceImpl implements JobManagementService {
     @Autowired
     private JobService jobService;
+
+    @Override
+    public TuGraphDBManagement.HeartbeatResponse detectHeartbeat(TuGraphDBManagement.HeartbeatRequest request) {
+        log.info("get heartbeat request");
+        String reqMsg = request.getRequestMsg();
+        log.info(reqMsg);
+        String respMsg = "This is a heartbeat response message.";
+        int heartbeatCount = request.getHeartbeatCount();
+        TuGraphDBManagement.HeartbeatResponse.Builder respBuilder =
+            TuGraphDBManagement.HeartbeatResponse
+                .newBuilder();
+        respBuilder
+            .setResponseMsg(respMsg)
+            .setHeartbeatCount(heartbeatCount + 1);
+        return respBuilder.build();
+    }
 
     @Override
     public TuGraphDBManagement.JobManagementResponse handleRequest(TuGraphDBManagement.JobManagementRequest request) {
