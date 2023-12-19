@@ -28,6 +28,7 @@ public class JobDaoImpl implements JobDao {
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job("
                                  + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
                                  + "`taskId` VARCHAR(40) UNIQUE,"
+                                 + "`taskName` VARCHAR(40) UNIQUE,"
                                  + "`dbId` VARCHAR(21),"
                                  + "`startTime` INTEGER,"
                                  + "`period` VARCHAR(9),"
@@ -70,10 +71,11 @@ public class JobDaoImpl implements JobDao {
     @Override
     public int create(Job Job) {
         final String sql =
-            "insert into job(taskId, dbId, startTime, period, procedureName, procedureType, status, runtime, user, "
-                + "createTime) values(?,?,?,?,?,?,?,?,?,?)";
+            "insert into job(taskId, taskName, dbId, startTime, period, procedureName, procedureType, status, "
+                + "runtime, user, createTime) values(?,?,?,?,?,?,?,?,?,?,?)";
         Object[] params = new Object[] {
             Job.getTaskId(),
+            Job.getTaskName(),
             Job.getDbId(),
             Job.getStartTime(),
             Job.getPeriod(),

@@ -80,6 +80,7 @@ public class JobManagementServiceImpl implements JobManagementService {
             Job Job = new Job()
                 .setDbId(dbId)
                 .setTaskId(request.getTaskId())
+                .setTaskName(request.getTaskName())
                 .setStartTime(request.getStartTime())
                 .setPeriod(request.getPeriod())
                 .setProcedureName(request.getProcedureName())
@@ -107,6 +108,7 @@ public class JobManagementServiceImpl implements JobManagementService {
                 Job tempJob = jobService.getStatusById(request.getTaskId());
                 TuGraphDBManagement.Job Job = TuGraphDBManagement.Job.newBuilder()
                                                                      .setJobId(tempJob.getJobId())
+                                                                     .setTaskName(tempJob.getTaskName())
                                                                      .setTaskId(tempJob.getTaskId())
                                                                      .setDbId(tempJob.getDbId())
                                                                      .setStartTime(tempJob.getStartTime())
@@ -124,6 +126,7 @@ public class JobManagementServiceImpl implements JobManagementService {
                 for (Job tempJob : tempJobList) {
                     TuGraphDBManagement.Job Job = TuGraphDBManagement.Job.newBuilder()
                                                                          .setTaskId(tempJob.getTaskId())
+                                                                         .setTaskName(tempJob.getTaskName())
                                                                          .setDbId(tempJob.getDbId())
                                                                          .setJobId(tempJob.getJobId())
                                                                          .setStartTime(tempJob.getStartTime())

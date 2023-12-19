@@ -12,6 +12,8 @@ import lombok.experimental.Accessors;
 public class Job {
     private Integer jobId; // internal unique self-increment id.
 
+    private String taskName; // user-defined task name
+
     private String taskId; // unique string id given when created
 
     private String dbId; // IP:port

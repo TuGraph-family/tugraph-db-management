@@ -28,16 +28,17 @@ enum ResponseCode {
 
 message Job {
       required int32 job_id = 1;
-      required string task_id = 2;
-      required string db_id = 3;
-      required int64 start_time = 4;
-      required string period = 5;
-      required string procedure_name = 6;
-      required string procedure_type = 7;
-      required string status = 8;
-      required int64 runtime = 9;
-      required string user = 10;
-      required int64 create_time = 11;
+      required string task_name = 2;
+      required string task_id = 3;
+      required string db_id = 4;
+      required int64 start_time = 5;
+      required string period = 6;
+      required string procedure_name = 7;
+      required string procedure_type = 8;
+      required string status = 9;
+      required int64 runtime = 10;
+      required string user = 11;
+      required int64 create_time = 12;
 }
 
 message AlgoResult {
@@ -47,12 +48,13 @@ message AlgoResult {
 
 message CreateJobRequest {
       required string task_id = 1;
-      required string user = 2;
-      required string procedure_name = 3;
-      required string procedure_type = 4;
-      required string period = 5;
-      required int64 create_time = 6;
-      required int64 start_time = 7;
+      required string task_name = 2;
+      required string user = 3;
+      required string procedure_name = 4;
+      required string procedure_type = 5;
+      required string period = 6;
+      required int64 create_time = 7;
+      required int64 start_time = 8;
 }
 
 message CreateJobResponse {

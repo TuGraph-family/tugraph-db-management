@@ -41,6 +41,8 @@ class TuGraphDBManagementApplicationTests {
 
         // set up ut job info
         String uuid1 = "utTaskId1";
+        String taskName1 = "name1";
+        String taskName2 = "name2";
         String uuid2 = "utTaskId2";
         String dbId = "127.0.0.1:1234";
         Long startTime = System.currentTimeMillis();
@@ -62,6 +64,7 @@ class TuGraphDBManagementApplicationTests {
         // test create job
         jobManagementService.handleCreateJobRequest(CreateJobRequest.newBuilder()
                                                                     .setTaskId(uuid1)
+                                                                    .setTaskName(taskName1)
                                                                     .setStartTime(startTime)
                                                                     .setPeriod(period)
                                                                     .setProcedureName(procedureName)
@@ -71,6 +74,7 @@ class TuGraphDBManagementApplicationTests {
                                                                     .build(), dbId);
         jobManagementService.handleCreateJobRequest(CreateJobRequest.newBuilder()
                                                                     .setTaskId(uuid2)
+                                                                    .setTaskName(taskName2)
                                                                     .setStartTime(startTime)
                                                                     .setPeriod(period)
                                                                     .setProcedureName(procedureName)
