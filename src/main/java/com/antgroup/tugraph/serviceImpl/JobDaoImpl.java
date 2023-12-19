@@ -25,34 +25,39 @@ public class JobDaoImpl implements JobDao {
     private JdbcTemplate jdbcTemplate;
 
     public void initDB() {
-		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job("
-            + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "`dbId` VARCHAR(21),"
-            + "`startTime` INTEGER,"
-            + "`period` VARCHAR(9),"
-            + "`procedureName` TEXT,"
-            + "`procedureType` TEXT,"
-            + "`status` VARCHAR(7),"
-            + "`runtime` INTEGER,"
-            + "`user` TEXT,"
-            + "`createTime` INTEGER"
-            + ")");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job("
+                                 + "`jobId` INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                 + "`taskId` VARCHAR(40) UNIQUE,"
+                                 + "`dbId` VARCHAR(21),"
+                                 + "`startTime` INTEGER,"
+                                 + "`period` VARCHAR(9),"
+                                 + "`procedureName` TEXT,"
+                                 + "`procedureType` TEXT,"
+                                 + "`status` VARCHAR(7),"
+                                 + "`runtime` INTEGER,"
+                                 + "`user` TEXT,"
+                                 + "`createTime` INTEGER"
+                                 + ")");
 
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS job_result("
-            + "`jobId` INTEGER PRIMARY KEY,"
-            + "`result` TEXT"
-            + ")");
-	}
+                                 + "`taskId` VARCHAR(40) PRIMARY KEY,"
+                                 + "`result` TEXT"
+                                 + ")");
+    }
 
     @Override
-    public Job getStatusById(Integer id) {
-        Job Job  = jdbcTemplate.queryForObject("select * from job where jobId = ?", new BeanPropertyRowMapper<Job>(Job.class), id);
+    public Job getStatusById(String id) {
+        Job Job =
+            jdbcTemplate.queryForObject("select * from job where taskId = ?", new BeanPropertyRowMapper<Job>(Job.class),
+                                        id);
         return Job;
     }
 
     @Override
-    public AlgoResult getResultById(Integer id) {
-        AlgoResult AlgoResult  = jdbcTemplate.queryForObject("select * from job_result where jobId = ?", new BeanPropertyRowMapper<AlgoResult>(AlgoResult.class), id);
+    public AlgoResult getResultById(String id) {
+        AlgoResult AlgoResult = jdbcTemplate.queryForObject("select * from job_result where taskId = ?",
+                                                            new BeanPropertyRowMapper<AlgoResult>(AlgoResult.class),
+                                                            id);
         return AlgoResult;
     }
 
@@ -64,8 +69,11 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public int create(Job Job) {
-        final String sql = "insert into job(dbId, startTime, period, procedureName, procedureType, status, runtime, user, createTime) values(?,?,?,?,?,?,?,?,?)";
-        Object[] params = new Object[]{
+        final String sql =
+            "insert into job(taskId, dbId, startTime, period, procedureName, procedureType, status, runtime, user, "
+                + "createTime) values(?,?,?,?,?,?,?,?,?,?)";
+        Object[] params = new Object[] {
+            Job.getTaskId(),
             Job.getDbId(),
             Job.getStartTime(),
             Job.getPeriod(),
@@ -94,18 +102,18 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public void update(Job Job, AlgoResult AlgoResult) {
-        jdbcTemplate.update("UPDATE job SET status = ? , runtime = ? WHERE jobId=?",
-                Job.getStatus(), Job.getRuntime(), Job.getJobId());
+        jdbcTemplate.update("UPDATE job SET status = ? , runtime = ? WHERE taskId=?",
+                            Job.getStatus(), Job.getRuntime(), Job.getTaskId());
 
         if (Job.getStatus().equals("SUCCESS")) {
-            jdbcTemplate.update("insert into job_result(jobId, result) values(?,?)",
-                AlgoResult.getJobId(), AlgoResult.getResult());
+            jdbcTemplate.update("insert into job_result(taskId, result) values(?,?)",
+                                AlgoResult.getTaskId(), AlgoResult.getResult());
         }
     }
 
     @Override
-    public int delete(Integer id) {
-        return jdbcTemplate.update("DELETE FROM job WHERE jobId=?", id);
+    public int delete(String id) {
+        return jdbcTemplate.update("DELETE FROM job WHERE taskId=?", id);
     }
 
     @Override

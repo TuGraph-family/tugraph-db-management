@@ -10,7 +10,9 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class Job {
-    private Integer jobId; // unique self increment integer id.
+    private Integer jobId; // internal unique self-increment id.
+
+    private String taskId; // unique string id given when created
 
     private String dbId; // IP:port
 

@@ -7,9 +7,9 @@ import java.util.List;
 public interface JobService {
     void initDB();
 
-    Job getStatusById(Integer id);
+    Job getStatusById(String id);
 
-    AlgoResult getResultById(Integer id);
+    AlgoResult getResultById(String id);
 
     List<Job> listStatus();
 
@@ -17,7 +17,7 @@ public interface JobService {
 
     void update(Job Job, AlgoResult AlgoResult);
 
-    int delete(Integer id);
+    int delete(String id);
 
     void clearAll();
 }

@@ -19,12 +19,12 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job getStatusById(Integer id) {
+    public Job getStatusById(String id) {
         return this.jobDao.getStatusById(id);
     }
 
     @Override
-    public AlgoResult getResultById(Integer id) {
+    public AlgoResult getResultById(String id) {
         return this.jobDao.getResultById(id);
     }
 
@@ -44,7 +44,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public int delete(Integer id) {
+    public int delete(String id) {
         return this.jobDao.delete(id);
     }
 
